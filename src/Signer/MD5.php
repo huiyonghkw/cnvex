@@ -7,6 +7,19 @@ use Bravist\Cnvex\Contracts\Signer;
 
 class MD5 extends AbstractSigner implements Signer
 {
+    public $signKey;
+
+    protected function getSignKey()
+    {
+        return $this->signKey;
+    }
+
+    public function setSignKey($key)
+    {
+        $this->signKey = $key;
+        return $this;
+    }
+
     /**
      * Sign the source
      * @param array $signString
