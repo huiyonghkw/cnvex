@@ -1,0 +1,24 @@
+{
+    "name": "bravist/cnvex",
+    "description": "Cnvex is a PHP library for e.cnvex.cn",
+    "type": "library",
+    "require": {
+        "monolog/monolog": "^1.23",
+        "guzzlehttp/guzzle": "^6.3",
+        "phpunit/phpunit": "^6.4"
+    },
+    "license": "Apache2.0",
+    "authors": [
+        {
+            "name": "程会勇",
+            "email": "chenghuiyong1987@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Cnvex\\": "src/"
+        }
+    },
+    "extra": {
+    }
+}
