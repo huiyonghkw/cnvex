@@ -4,7 +4,7 @@ namespace Bravist\Cnvex\Contracts;
 
 interface Signer
 {
-    public function sign($signString);
+    public function sign($sign);
     
     public function verify($string, $key);
 }

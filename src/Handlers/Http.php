@@ -1,19 +1,19 @@
 <?php 
 
-namespace Bravist\Cnvex;
+namespace Bravist\Cnvex\Handlers;
 
 use Bravist\Cnvex\SignatureManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Bravist\Cnvex\Handlers\Util\Util;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class Http extends Util
 {
     public $signer;
 
     public $client;
-
-    public $apiHost;
 
     public function __construct(
         SignatureManager $signer,
@@ -43,17 +43,6 @@ class Http extends Util
         return $this;
     }
 
-    public function getApiHost()
-    {
-        return $this->apiHost;
-    }
-
-    public function setApiHost($host)
-    {
-        $this->apiHost = $host;
-        return $this;
-    }
-
     /**
      * HTTP post request
      * @param  array  $parameters
@@ -64,22 +53,31 @@ class Http extends Util
         if ($parameters) {
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
-        $parameters['sign'] = $this->signer->sign($parameters);
-        logger('=====host=====');
-        logger($this->getApiHost());
-        logger('=====sign=====');
-        logger($parameters['sign']);
-        logger('=====parameters=====');
-        logger($parameters);
+        $parameters['sign'] = $this->signer->signer()->sign($parameters);
+        $this->logger('=====host=====');
+        $this->logger($this->getApiHost());
+        $this->logger('=====sign=====');
+        $this->logger($parameters['sign']);
+        $this->logger('=====parameters=====');
+        $this->logger($parameters);
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters
             ]);
         } catch (RequestException $e) {
-            logger('=====RequestException=====');
-            logger($e);
+            $this->logger('=====RequestException=====');
+            $this->logger($e);
             throw $e;
         }
         return (string) $response->getBody();
+    }
+
+    public function logger($msg)
+    {
+        if ($this->getDebug()) {
+            $log = new Logger('cnvex');
+            $log->pushHandler(new StreamHandler(__DIR__ . '/logs/debug.log', Logger::DEBUG));
+            $log->debug($msg);
+        }
     }
 }

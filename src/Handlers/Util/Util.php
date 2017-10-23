@@ -16,22 +16,22 @@ abstract class Util
 
     public $protocol;
 
+    public $debug;
+
+    public $apiHost;
+
     public function getRequestNo()
     {
         list($usec, $sec) = explode(' ', microtime());
-        $this->requestNo = date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
-        return $this;
+        $this->requestNo = 'RN' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
+        return $this->requestNo;
     }
 
     public function getMerchOrderNo()
     {
+        list($usec, $sec) = explode(' ', microtime());
+        $this->merchOrderNo = 'MON' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
         return $this->merchOrderNo;
-    }
-
-    public function setMerchOrderNo($no)
-    {
-        $this->merchOrderNo = $no;
-        return $this;
     }
 
     public function getVersion()
@@ -75,6 +75,28 @@ abstract class Util
     public function setProtocol($protocol)
     {
         $this->protocol = $protocol;
+        return $this;
+    }
+
+    public function getDebug()
+    {
+        return $this->debug;
+    }
+
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+        return $this;
+    }
+
+    public function getApiHost()
+    {
+        return $this->apiHost;
+    }
+
+    public function setApiHost($host)
+    {
+        $this->apiHost = $host;
         return $this;
     }
 

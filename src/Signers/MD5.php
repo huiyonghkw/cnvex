@@ -22,12 +22,12 @@ class MD5 extends AbstractSigner implements Signer
 
     /**
      * Sign the source
-     * @param array $signString
+     * @param array $sign
      * @return string
      */
-    public function sign($signString)
+    public function sign($sign)
     {
-        return md5($signString . $this->getSignKey());
+        return md5($this->sort($sign) . $this->getSignKey());
     }
 
     /**

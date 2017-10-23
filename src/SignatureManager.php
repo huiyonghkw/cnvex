@@ -61,7 +61,7 @@ class SignatureManager
      */
     public function getDefaultSigner()
     {
-        return $this->app['config']['signature']['default'];
+        return $this->app['default'];
     }
 
     /**
@@ -119,7 +119,7 @@ class SignatureManager
      */
     protected function getConfig($name)
     {
-        return $this->app['config']['signature'][$name];
+        return $this->app[$name];
     }
 
     /**
