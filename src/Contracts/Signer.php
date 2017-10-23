@@ -1,6 +1,6 @@
 <?php 
 
-namespace Bravist\Cnvex\Contacts;
+namespace Bravist\Cnvex\Contracts;
 
 interface Signer
 {

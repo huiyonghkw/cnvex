@@ -1,8 +1,8 @@
 <?php
 
-namespace Bravist\Cnvex\Signer;
+namespace Bravist\Cnvex\Signers;
 
-use Bravist\Cnvex\Signer\AbstractSigner;
+use Bravist\Cnvex\Signers\AbstractSigner;
 use Bravist\Cnvex\Contracts\Signer;
 
 class MD5 extends AbstractSigner implements Signer

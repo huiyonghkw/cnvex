@@ -1,6 +1,6 @@
 <?php 
 
-namespace Bravist\Cnvex\Signer;
+namespace Bravist\Cnvex\Signers;
 
 abstract class AbstractSigner
 {
