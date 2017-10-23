@@ -55,4 +55,31 @@ class HttpTest extends PHPUnit_Framework_TestCase
         $res = $http->queryUser('17092720111513000002');
         $this->assertObjectHasAttribute('userId', $res);
     }
+
+    public function testQueryUserBalance()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->queryUserBalance('17092720111513000002');
+        $this->assertObjectHasAttribute('userId', $res);
+    }
+
+    public function testSendSMS()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->sendCaptcha('15390438190');
+        $this->assertTrue($res);
+    }
+
+    public function testRegisterUser()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->registerUser('D3665263-7925-4858-A461-E90368437643', 111111, 15390438190, '程会勇', '513701198709184016', '6222024402027814403');
+        $this->assertNotNull($res);
+    }
 }
