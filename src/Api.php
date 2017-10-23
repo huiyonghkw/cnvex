@@ -2,41 +2,52 @@
 
 namespace Bravist\Cnvex;
 
-class Api
+use Bravist\Cnvex\Handlers\Http;
+
+class Api extends Http
 {
     /**
-     * Get enterprise profile
-     * @return void
+     * 查询企账通2.0账户信息
+     * @param  string $internalUUID
+     * @param  string $externalUUID
+     * @return object
      */
-    public function getEnterpriseProfile()
+    public function queryUser($internalUUID = '', $externalUUID = '')
     {
-        if (! $this->getConfig('enterprise_uuid')) {
-            throw new \Exception("重庆宜配科技有限公司企账通企业号不存在！");
-        }
-        $parameters = [
+        $response = $this->post([
             'service' => 'queryUser',
-            'outUserId' => $this->getConfig('enterprise_uuid')
-        ];
-        $resJson = $this->post($parameters);
-        $response = json_decode($resJson);
-        if ($response->resultCode != 'EXECUTE_SUCCESS' &&
-             $response->resultCode != 'EXECUTE_PROCESSING') {
-            throw new \Exception('查询企账通企业号失败： '. $response->resultMessage);
+            'userId' => $internalUUID,
+            'outUserId' => $externalUUID
+        ]);
+        if (!isset($response->userInfo[0])) {
+            throw new \RuntimeException('未找到企账通用户');
         }
-        //获取账户信息
         $account = $response->userInfo[0];
         // 手机号码未实名认证
         if ($account->mobileNoAuth != 'AUTH_OK') {
-            throw new \Exception('手机号码未实名认证');
+            throw new \RuntimeException('企账通账户手机号码未实名');
         }
         // 身份信息未实名认证
         if ($account->realNameAuth != 'AUTH_OK') {
-            throw new \Exception('身份信息未实名认证');
+            throw new \RuntimeException('企账通账户身份信息未实名认证');
         }
         // 未绑定银行卡
         if ($account->bankCardCount < 1) {
-            throw new \Exception('未绑定银行卡');
+            throw new \RuntimeException('企账通账户未绑定银行卡');
         }
+
+        if ($account->status != 'ENABLE') {
+            throw new \RuntimeException('企账通账户已被禁用');
+        }
+
         return $account;
+    }
+
+    /**
+     * 查询企账通账户余额
+     * @return [type] [description]
+     */
+    public function queryUserBalance()
+    {
     }
 }

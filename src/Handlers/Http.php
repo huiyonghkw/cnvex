@@ -5,6 +5,7 @@ namespace Bravist\Cnvex\Handlers;
 use Bravist\Cnvex\SignatureManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
 use Bravist\Cnvex\Handlers\Util\Util;
 
 class Http extends Util
@@ -23,13 +24,6 @@ class Http extends Util
         $this->setConfig($config);
     }
 
-    /**
-     * setConfig.
-     *
-     * @param array $config
-     *
-     * @return $this
-     */
     public function setConfig(array $config)
     {
         foreach ($config as $key => $value) {
@@ -52,8 +46,6 @@ class Http extends Util
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
         $parameters['sign'] = $this->signer->signer()->sign($parameters);
-        // var_dump($this->getApiHost());
-        // var_dump($parameters);
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters
@@ -61,6 +53,12 @@ class Http extends Util
         } catch (RequestException $e) {
             throw $e;
         }
-        return (string) $response->getBody();
+
+        $res = json_decode((string) $response->getBody());
+        if ($res->resultCode != 'EXECUTE_SUCCESS' &&
+             $res->resultCode != 'EXECUTE_PROCESSING') {
+            throw new \Exception('Server request error: '. $res->resultMessage);
+        }
+        return $res;
     }
 }
