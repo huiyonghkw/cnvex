@@ -18,6 +18,6 @@ class SignatureManagerTest extends PHPUnit_Framework_TestCase
         ];
         
         $manager = new SignatureManager($app['signature']);
-        $this->assertEquals('96e79218965eb72c92a549dd5a330112', $manager->signer()->sign('111'));
+        $this->assertEquals('8e1ddb64207846dfce403fae54824c05', $manager->signer()->sign($app));
     }
 }

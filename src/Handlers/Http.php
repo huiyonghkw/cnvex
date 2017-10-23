@@ -6,8 +6,6 @@ use Bravist\Cnvex\SignatureManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Bravist\Cnvex\Handlers\Util\Util;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 class Http extends Util
 {
@@ -54,30 +52,15 @@ class Http extends Util
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
         $parameters['sign'] = $this->signer->signer()->sign($parameters);
-        $this->logger('=====host=====');
-        $this->logger($this->getApiHost());
-        $this->logger('=====sign=====');
-        $this->logger($parameters['sign']);
-        $this->logger('=====parameters=====');
-        $this->logger($parameters);
+        // var_dump($this->getApiHost());
+        // var_dump($parameters);
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters
             ]);
         } catch (RequestException $e) {
-            $this->logger('=====RequestException=====');
-            $this->logger($e);
             throw $e;
         }
         return (string) $response->getBody();
-    }
-
-    public function logger($msg)
-    {
-        if ($this->getDebug()) {
-            $log = new Logger('cnvex');
-            $log->pushHandler(new StreamHandler(__DIR__ . '/logs/debug.log', Logger::DEBUG));
-            $log->debug($msg);
-        }
     }
 }
