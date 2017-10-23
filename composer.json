@@ -15,6 +15,7 @@
         }
     ],
     "autoload": {
+        "files": ["src/Functions.php"],
         "psr-4": {
             "Bravist\\Cnvex\\": "src/"
         }
