@@ -19,6 +19,11 @@
             "Bravist\\Cnvex\\": "src/"
         }
     },
-    "extra": {
+     "extra": {
+        "laravel": {
+            "providers": [
+                "Bravist\\Cnvex\\ServiceProvider"
+            ]
+        }
     }
 }
