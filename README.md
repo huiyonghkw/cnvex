@@ -20,16 +20,14 @@
 > composer 是php的包管理工具， 通过composer.json里的配置管理依赖的包，同时可以在使用类时自动加载对应的包, 在你的composer.json中添加如下依赖
 
 ```
-{
-	"require": {
-		"bravist/cnvex": "1.0"
-	}
+"require": {
+	"bravist/cnvex": "1.0"
 }
 ```
 
 然后命令行执行
 
-```php 
+```
 composer install
 ```
 
