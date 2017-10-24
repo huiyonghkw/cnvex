@@ -109,4 +109,19 @@ class Api extends Http
         ]);
         return $response->userId;
     }
+
+    /**
+     * 查询交易单
+     * @param  string $orignalNo
+     * @return object
+     */
+    public function queryTransaction($orignalNo)
+    {
+        $res = $this->post([
+            'service' => 'tradeQuery',
+            'origOrderNo' => $orignalNo
+        ]);
+
+        return $res->tradeOrder;
+    }
 }
