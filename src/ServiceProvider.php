@@ -51,5 +51,17 @@ class ServiceProvider extends LaravelServiceProvider
         $this->app->bind(Api::class, function ($app) {
             return new Api(app('cnvex.sign'), new Client(), config('cnvex.api'));
         });
+
+        $this->app->alias(Api::class, 'cnvex');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [Api::class, 'cnvex'];
     }
 }
