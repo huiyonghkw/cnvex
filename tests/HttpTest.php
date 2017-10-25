@@ -4,8 +4,9 @@ use Bravist\Cnvex\Handlers\Http;
 use Bravist\Cnvex\SignatureManager;
 use GuzzleHttp\Client;
 use Bravist\Cnvex\Api;
+use PHPUnit\Framework\TestCase;
 
-class HttpTest extends PHPUnit_Framework_TestCase
+class HttpTest extends TestCase
 {
     private function getDefaults()
     {
