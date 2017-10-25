@@ -4,9 +4,10 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "monolog/monolog": "^1.23",
+        "php": "^5.5.9 || ^7.0",
         "guzzlehttp/guzzle": "^6.3",
-        "phpunit/phpunit": "5.*"
+        "phpunit/phpunit": "5.*",
+        "illuminate/support": "^5.1"
     },
     "license": "Apache2.0",
     "authors": [
@@ -18,6 +19,12 @@
     "autoload": {
         "psr-4": {
             "Bravist\\Cnvex\\": "src/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
         }
     },
      "extra": {
