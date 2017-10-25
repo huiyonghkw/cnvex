@@ -36,7 +36,7 @@ require_once('vendor/autoload.php');
 
 ### 手动引入
 ``` php
-require_once('/path/to/pingpp-php/init.php');
+require_once('/path/to/cnvex/api.php');
 ```
 
 
