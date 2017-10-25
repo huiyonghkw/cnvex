@@ -2,6 +2,7 @@
     "name": "bravist/cnvex",
     "description": "Cnvex is a PHP library for e.cnvex.cn",
     "type": "library",
+    "minimum-stability": "dev",
     "require": {
         "monolog/monolog": "^1.23",
         "guzzlehttp/guzzle": "^6.3",
