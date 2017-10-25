@@ -12,9 +12,10 @@
 另外，项目支持Laravel Framework快速集成，所有接口都已做单元测试，具体参考`tests`目录文件。
 
 扩展包依赖
-+ PHP 5.6 + || PHP 7.0 +
-+ GuzzleHttp
-+ PHPUnit
++ PHP 5.6+ || PHP 7.0+
++ guzzlehttp/guzzle
++ phpunit/phpunit
++ illuminate/log
 
 
 ## 安装 Cnvex.cn PHP SDK
