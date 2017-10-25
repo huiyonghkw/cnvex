@@ -11,7 +11,7 @@ class SignatureManagerTest extends PHPUnit_Framework_TestCase
                 'md5' => [
                     'driver' => 'md5',
                     'options' => [
-                        'signKey' => '20ad542cba99a9330dce0429dbeec55e'
+                        'signKey' => '06f7aab08aa2431e6dae6a156fc9e0b4'
                     ]
                 ]
             ]
