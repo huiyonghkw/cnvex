@@ -51,6 +51,11 @@ Add the following line to the section `providers` of `config/app.php`:
 ],
 ```
 
+make configuration:
+```
+php artisan vendor:publish --provider="Bravist\Cnvex\ServiceProvider"
+```
+
 as optional, you can use facade:
 
 ```php
@@ -61,7 +66,7 @@ as optional, you can use facade:
 ],
 ```
 
-support autodiscover on laravel 5.5.
+support package auto discover on laravel 5.5.
 
 ## For Lumen
 
