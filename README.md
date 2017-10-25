@@ -72,5 +72,3 @@ Add the following line to `bootstrap/app.php` after `// $app->withEloquent();`
 $app->register(Bravist\Cnvex\ServiceProvider::class);
 ...
 ```
-
-
