@@ -39,20 +39,38 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function registerSignature()
     {
-        $this->app->bind(['Bravist\\Cnvex\\SignatureManager' => 'cnvex.sign'], function ($app) {
+        $this->app->singleton('cnvex.sign', function ($app) {
             return new SignatureManager(config('cnvex.signature'));
         });
     }
-        
+
     public function register()
     {
         $this->registerSignature();
-        
-        $this->app->bind(Api::class, function ($app) {
+        $this->registerClassAliases();
+
+        $this->app->singleton('cnvex', function ($app) {
             return new Api(app('cnvex.sign'), new Client(), config('cnvex.api'));
         });
+    }
 
-        $this->app->alias(Api::class, 'cnvex');
+    /**
+     * Register the class aliases.
+     *
+     * @return void
+     */
+    protected function registerClassAliases()
+    {
+        $aliases = [
+            'cnvex.sign' => 'Bravist\\Cnvex\\SignatureManager',
+            'cnvex' => 'Bravist\Cnvex\Api',
+        ];
+
+        foreach ($aliases as $key => $aliases) {
+            foreach ((array) $aliases as $alias) {
+                $this->app->alias($key, $alias);
+            }
+        }
     }
 
     /**

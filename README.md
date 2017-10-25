@@ -19,22 +19,24 @@
 ### 使用[composer](https://getcomposer.org/)
 > composer 是php的包管理工具， 通过composer.json里的配置管理依赖的包，同时可以在使用类时自动加载对应的包, 在你的composer.json中添加如下依赖
 
+执行
 ```
-"require": {
-	"bravist/cnvex": "1.0"
-}
-```
-
-然后命令行执行
-
-```
-composer install
+composer require bravist/cnvex
 ```
 
-在需要使用的php文件中引入vendor/autoload.php
-
-```
+使用 Composer 的 autoload 引入
+```php
 require_once('vendor/autoload.php');
+```
+
+使用 Composer 的 autoload 引入
+```php
+require_once('vendor/autoload.php');
+```
+
+### 手动引入
+``` php
+require_once('/path/to/pingpp-php/init.php');
 ```
 
 
