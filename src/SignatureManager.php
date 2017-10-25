@@ -13,7 +13,7 @@ class SignatureManager
      * @var @var \Illuminate\Foundation\Application
      */
     protected $app;
-    
+
     /**
      * The array of resolved signers.
      *
@@ -43,7 +43,7 @@ class SignatureManager
      *
      * @param string $name
      *
-     * @return \Liyu\Signature\Constracts\Signer
+     * @return \Bravist\Cnvex\Constracts\Signer
      */
     public function signer($name = null)
     {
@@ -69,7 +69,7 @@ class SignatureManager
      *
      * @param string $name
      *
-     * @return \Liyu\Signature\Constracts\Signer
+     * @return \Bravist\Cnvex\Constracts\Signer
      */
     protected function resolve($name)
     {
@@ -91,13 +91,13 @@ class SignatureManager
     {
         return $this->customCreators[$config['driver']]($this->app, $config['options']);
     }
-    
+
     /**
      * create rsa signer.
      *
      * @param array $config
      *
-     * @return \Liyu\Signature\Signer\RSA
+     * @return \Bravist\Cnvex\Signers\MD5
      */
     public function createMD5Driver(array $config)
     {
