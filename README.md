@@ -55,12 +55,9 @@ php artisan vendor:publish --provider="Bravist\Cnvex\ServiceProvider"
 as optional, you can use facade:
 
 ```php
-
 'aliases' => [
-    //...
     'Cnvex' => Bravist\Cnvex\Facade\Cnvex::class,
-    //...
-		'CnvexSigner' => Bravist\Cnvex\Facade\Signature::class
+    'CnvexSigner' => Bravist\Cnvex\Facade\Signature::class
 ],
 ```
 
