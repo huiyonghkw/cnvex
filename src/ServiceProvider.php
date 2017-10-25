@@ -46,9 +46,8 @@ class ServiceProvider extends LaravelServiceProvider
 
     public function register()
     {
-        $this->registerSignature();
         $this->registerClassAliases();
-
+        $this->registerSignature();
         $this->app->singleton(Api::class, function ($app) {
             return new Api(app('cnvex.signer'), new Client(), config('cnvex.api'));
         });
