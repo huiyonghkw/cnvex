@@ -7,7 +7,7 @@
 - 账户余额支付（转账）
 - 账户注册、绑定银行卡
 - 查询交易记录
-已支持的所有接口参考单元测试中的每个测试用例。
+另外，项目支持Laravel Framework快速集成，所有接口都做了单元测试，具体参考`tests`目录文件。
 
 扩展包依赖
 + PHP 5.6 + || PHP 7.0 +
@@ -47,7 +47,7 @@ Add the following line to the section `providers` of `config/app.php`:
 ],
 ```
 
-make configuration:
+publish the configuration:
 ```
 php artisan vendor:publish --provider="Bravist\Cnvex\ServiceProvider"
 ```
@@ -89,7 +89,6 @@ Add the following line to `bootstrap/app.php` after `// $app->withEloquent();`
 ```php
 ...
 // $app->withEloquent();
-
 $app->register(Bravist\Cnvex\ServiceProvider::class);
 ...
 ```
