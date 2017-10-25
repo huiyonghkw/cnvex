@@ -1,7 +1,8 @@
 <?php
 use Bravist\Cnvex\SignatureManager;
+use PHPUnit\Framework\TestCase;
 
-class SignatureManagerTest extends PHPUnit_Framework_TestCase
+class SignatureManagerTest extends TestCase
 {
     public function testDefaultSignerCanBeResolved()
     {
