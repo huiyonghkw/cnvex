@@ -65,8 +65,7 @@ as optional, you can use facade:
 
 support package auto discover on laravel 5.5.
 
-##Usage:
-
+## Usage
 
 ```php
 # 数据签名
