@@ -25,7 +25,6 @@ class HttpTest extends PHPUnit_Framework_TestCase
                     'partnerId' => '17100913073600200074',
                     'version' => '1.0',
                     'apiHost' => 'http://open.cnvex.cn/gateway.html',
-                    // 'signKey' => '20ad542cba99a9330dce0429dbeec55e',
                     'debug' => true,
                     'notify' => [
                         'blance_pay' => 'http://api.weipeiapp.com.dev/qzt/blance_pay/notify'
@@ -88,7 +87,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryTransaction('311710191010460356');
+        $res = $http->queryTransaction('311710242030203990');
         $this->assertObjectHasAttribute('tradeStatus', $res);
     }
 }
