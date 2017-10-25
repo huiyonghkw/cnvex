@@ -39,7 +39,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function registerSignature()
     {
-        $this->app->singleton('cnvex.sign', function ($app) {
+        $this->app->singleton(SignatureManager::class, function ($app) {
             return new SignatureManager(config('cnvex.signature'));
         });
     }
@@ -49,8 +49,8 @@ class ServiceProvider extends LaravelServiceProvider
         $this->registerSignature();
         $this->registerClassAliases();
 
-        $this->app->singleton('cnvex', function ($app) {
-            return new Api(app('cnvex.sign'), new Client(), config('cnvex.api'));
+        $this->app->singleton(Api:class, function ($app) {
+            return new Api(app('cnvex.signer'), new Client(), config('cnvex.api'));
         });
     }
 
@@ -62,7 +62,7 @@ class ServiceProvider extends LaravelServiceProvider
     protected function registerClassAliases()
     {
         $aliases = [
-            'cnvex.sign' => 'Bravist\Cnvex\SignatureManager',
+            'cnvex.signer' => 'Bravist\Cnvex\SignatureManager',
             'cnvex' => 'Bravist\Cnvex\Api',
         ];
 
