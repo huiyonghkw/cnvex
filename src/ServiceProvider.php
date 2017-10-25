@@ -62,7 +62,7 @@ class ServiceProvider extends LaravelServiceProvider
     protected function registerClassAliases()
     {
         $aliases = [
-            'cnvex.sign' => 'Bravist\\Cnvex\\SignatureManager',
+            'cnvex.sign' => 'Bravist\Cnvex\SignatureManager',
             'cnvex' => 'Bravist\Cnvex\Api',
         ];
 
