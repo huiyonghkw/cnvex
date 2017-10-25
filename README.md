@@ -63,6 +63,7 @@ as optional, you can use facade:
 'aliases' => [
     //...
     'Cnvex' => Bravist\Cnvex\Facade\Cnvex::class,
+		'CnvexSigner' => Bravist\Cnvex\Facade\Signature::class
 ],
 ```
 
