@@ -7,7 +7,9 @@
 - 账户余额支付（转账）
 - 账户注册、绑定银行卡
 - 查询交易记录
-另外，项目支持Laravel Framework快速集成，所有接口都做了单元测试，具体参考`tests`目录文件。
+
+
+另外，项目支持Laravel Framework快速集成，所有接口都已做单元测试，具体参考`tests`目录文件。
 
 扩展包依赖
 + PHP 5.6 + || PHP 7.0 +
@@ -15,7 +17,7 @@
 + PHPUnit
 
 
-## 安装 CNVEX PHP SDK
+## 安装 Cnvex.cn PHP SDK
 
 ### 使用[composer](https://getcomposer.org/)
 > composer 是php的包管理工具， 通过composer.json里的配置管理依赖的包，同时可以在使用类时自动加载对应的包, 在你的composer.json中添加如下依赖
