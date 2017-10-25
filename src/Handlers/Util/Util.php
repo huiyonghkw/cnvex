@@ -20,6 +20,13 @@ abstract class Util
 
     public $apiHost;
 
+    public $logger = null;
+
+    public function __construct($logger = null)
+    {
+        $this->logger = $logger;
+    }
+
     public function getRequestNo()
     {
         list($usec, $sec) = explode(' ', microtime());

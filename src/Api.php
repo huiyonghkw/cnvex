@@ -124,4 +124,14 @@ class Api extends Http
 
         return $res->tradeOrder;
     }
+
+    public function redirectWallet($internalUid)
+    {
+        return $this->post([
+            'service' => 'walletRedirect',
+            'userId' => $internalUid,
+            'operatorId' => $internalUid,
+            'requestTime' => date('YmdHis')
+        ]);
+    }
 }

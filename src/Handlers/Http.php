@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Bravist\Cnvex\Handlers;
 
@@ -17,8 +17,10 @@ class Http extends Util
     public function __construct(
         SignatureManager $signer,
         Client $client,
-        array $config
+        array $config,
+        $logger = null
     ) {
+        parent::__construct($logger);
         $this->signer = $signer;
         $this->client = $client;
         $this->setConfig($config);
@@ -46,6 +48,12 @@ class Http extends Util
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
         $parameters['sign'] = $this->signer->signer()->sign($parameters);
+        if ($this->getDebug() && isset($this->logger)) {
+            $this->logger->debug('===Request Api Host===');
+            $this->logger->debug($this->getApiHost());
+            $this->logger->debug('===Request Parameters===');
+            $this->logger->debug($parameters);
+        }
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters

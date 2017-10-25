@@ -6,7 +6,8 @@
     "require": {
         "php": "^5.5.9 || ^7.0",
         "guzzlehttp/guzzle": "^6.3",
-        "illuminate/support": "^5.1"
+        "illuminate/support": "^5.1",
+        "illuminate/log": "~5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*"
