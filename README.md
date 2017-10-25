@@ -29,11 +29,6 @@ composer require bravist/cnvex
 require_once('vendor/autoload.php');
 ```
 
-使用 Composer 的 autoload 引入
-```php
-require_once('vendor/autoload.php');
-```
-
 ### 手动引入
 ``` php
 require_once('/path/to/cnvex/api.php');
