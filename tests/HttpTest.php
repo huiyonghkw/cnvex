@@ -98,7 +98,6 @@ class HttpTest extends TestCase
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->redirectWallet('17102512423713000026');
-        var_dump($res);
         $this->assertObjectHasAttribute('tradeStatus', $res);
     }
 }
