@@ -8,8 +8,8 @@ class Api extends Http
 {
     /**
      * 查询企账通2.0账户信息
-     * @param  string $internalUid
-     * @param  string $externalUid
+     * @param  string $internalUid 企账通用户ID
+     * @param  string $externalUid 企账通外部用户ID
      * @return object
      */
     public function queryUser($internalUid = '', $externalUid = '')
@@ -45,7 +45,7 @@ class Api extends Http
 
     /**
      * 查询企账通账户余额信息
-     * @param string $internalUid
+     * @param string $internalUid 企账通用户ID
      * @return object
      */
     public function queryUserBalance($internalUid)
@@ -62,8 +62,8 @@ class Api extends Http
 
     /**
      * 发送注册、绑卡短信验证码
-     * @param integer $mobile
-     * @param string $internalUid
+     * @param integer $mobile 手机号码
+     * @param string $internalUid 企账通用户ID
      * @return boolean
      */
     public function sendCaptcha($mobile, $internalUid = '')
@@ -80,14 +80,14 @@ class Api extends Http
 
     /**
      * 注册个人企账通账户
-     * @param  string $externalUid
-     * @param  integer $captcha
-     * @param  integer $mobile
-     * @param  string $realname
-     * @param  string $idCard
-     * @param  string $bankCard
-     * @param  string $from
-     * @param  string $email
+     * @param  string $externalUid 企账通外部用户ID
+     * @param  integer $captcha 短信验证码
+     * @param  integer $mobile 手机号码
+     * @param  string $realname 真实名称
+     * @param  string $idCard 身份证号码
+     * @param  string $bankCard 银行卡号
+     * @param  string $from 注册渠道 MOBILE/PC
+     * @param  string $email 邮箱
      * @return string
      */
     public function registerUser($externalUid, $captcha, $mobile, $realname, $idCard, $bankCard, $from = 'MOBILE', $email = '')
@@ -112,7 +112,7 @@ class Api extends Http
 
     /**
      * 查询交易单
-     * @param  string $orignalNo
+     * @param  string $orignalNo 商户订单号
      * @return object
      */
     public function queryTransaction($orignalNo)
@@ -125,6 +125,11 @@ class Api extends Http
         return $res->tradeOrder;
     }
 
+    /**
+     * 跳转钱包服务
+     * @param  string $internalUid 企账通用户ID
+     * @return string             
+     */
     public function redirectWallet($internalUid)
     {
         return $this->post([
@@ -133,5 +138,35 @@ class Api extends Http
             'operatorId' => $internalUid,
             'requestTime' => date('YmdHis')
         ]);
+    }
+
+
+    /**
+     * 统一收单交易创建接口 
+     * @param  string $subject 订单标题
+     * @param  float $amount  订单总金额，单位为元，精确到小数点后两位   
+     * @param  integer $seller 卖家企账通用户ID
+     * @param  string $notify 异步回调通知地址  
+     * @param  integer $buyer 买家企账通用户ID
+     * @param  string $clearType 清分类型: MANUAL 手动 AUTO 自动
+     * @param  string $body 对交易或商品的描述
+     * @param  String $goodsDetail 订单包含的商品列表信息.Json格式
+     * @return Object              
+     */
+    public function createTransaction($subject, $amount, $seller, $notify, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
+    {
+        $res = $this->post([
+            'service' => 'tradeCreate',
+            'tradeName' => $subject,
+            'sellerUserId' => $seller,
+            'buyerUserId' => $buyer,
+            'tradeProfitType' => $clearType,
+            'amount' => (floatval) $amount,
+            'tradeTime' => date('Y-m-d H:i:s'),
+            'tradeMemo' => $body,
+            'notifyUrl' => $notify,
+            'goodsInfoList' => $goodsDetail
+        ]);
+        return $res;
     }
 }
