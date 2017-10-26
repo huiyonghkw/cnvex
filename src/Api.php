@@ -233,4 +233,28 @@ CLOSE:交易关闭
         ]);
         return $res->rows;
     }
+
+    /**
+     * 查询用户绑卡记录
+     * @param  string  $internalUid 企账通用户ID
+     * @param  string  $bankPurpose 绑卡用途
+     *                              IDDEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+     * @param  string  $bankStatus  银行卡状态
+     *                              APPLY:申请; UNACTIVATED:未激活; ENABLE:有效; DISABLE:无效
+     * @param  integer $page        当前页
+     * @param  integer $limit       页面个数
+     * @return array
+     */
+    public function queryBankCards($internalUid, $bankPurpose = null, $bankStatus = null, $page = 1, $limit = 20)
+    {
+      $res = $this->post([
+          'service' => 'queryPact',
+          'userId' => $internalUid,
+          'purpose' => $bankPurpose,
+          'status' => $bankStatus,
+          'start' => $page,
+          'limit' => $limit
+      ]);
+      return $res;
+    }
 }

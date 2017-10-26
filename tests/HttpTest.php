@@ -111,4 +111,13 @@ class HttpTest extends TestCase
         $res = $http->queryRechargesAndwithdrawals('17101623164200000001');
         $this->assertObjectHasAttribute('rows', $res);
     }
+
+    public function testqueryBankCards()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->queryBankCards('17101623164200000001');
+        $this->assertObjectHasAttribute('bankCardInfos', $res);
+    }
 }
