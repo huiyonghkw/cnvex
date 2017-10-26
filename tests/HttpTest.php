@@ -83,21 +83,22 @@ class HttpTest extends TestCase
         $this->assertNotNull($res);
     }
 
-    public function testqueryTransaction()
+    public function testqueryTransfer()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryTransaction('311710242030203990');
+        $res = $http->queryTransfer('311710242030203990');
         $this->assertObjectHasAttribute('tradeStatus', $res);
     }
 
-    public function testRedirectWallet()
+
+    public function testqueryTransfers()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->redirectWallet('17102512423713000026');
+        $res = $http->queryTransfers('17092720111513000002');
         $this->assertObjectHasAttribute('tradeStatus', $res);
     }
 }

@@ -44,6 +44,6 @@ class SignatureManagerTest extends TestCase
           'merchOrderNo' => '311710242030203990'
         ];
 
-        $this->assertEquals('6ebc39a17d941d8738a12b8391def36e', $manager->signer()->sign($context));
+        $this->assertEquals('d0ca680e85aff9af8302f594bd83a673', $manager->signer()->sign($context));
     }
 }
