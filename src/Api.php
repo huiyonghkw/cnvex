@@ -131,16 +131,18 @@ class Api extends Http
      * @param  float $amount  订单总金额，单位为元，精确到小数点后两位
      * @param  integer $seller 卖家企账通用户ID
      * @param  string $notify 异步回调通知地址
+     * @param  string $transNo 商户交易单号
      * @param  integer $buyer 买家企账通用户ID
      * @param  string $clearType 清分类型: MANUAL 手动 AUTO 自动
      * @param  string $body 对交易或商品的描述
      * @param  String $goodsDetail 订单包含的商品列表信息.Json格式
      * @return Object
      */
-    public function createTransaction($subject, $amount, $seller, $notify, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
+    public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
     {
         return $this->post([
             'service' => 'tradeCreate',
+            'merchOrderNo' => $transNo,
             'tradeName' => $subject,
             'sellerUserId' => $seller,
             'buyerUserId' => $buyer,
@@ -158,6 +160,7 @@ class Api extends Http
      * 微信扫码支付
      * @param  float $amount      支付金额
      * @param  string $notify      通知回调地址
+     * @param  string $transNo 商户交易单号
      * @param  string $internalUid 企账通用户ID
      * @return object
      */
