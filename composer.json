@@ -21,7 +21,10 @@
     "autoload": {
         "psr-4": {
             "Bravist\\Cnvex\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers.php"
+        ]
     },
     "repositories": {
         "packagist": {

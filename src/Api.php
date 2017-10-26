@@ -155,7 +155,7 @@ class Api extends Http
      */
     public function createTransaction($subject, $amount, $seller, $notify, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
     {
-        $res = $this->post([
+        return $this->post([
             'service' => 'tradeCreate',
             'tradeName' => $subject,
             'sellerUserId' => $seller,
@@ -165,8 +165,26 @@ class Api extends Http
             'tradeTime' => date('Y-m-d H:i:s'),
             'tradeMemo' => $body,
             'notifyUrl' => $notify,
+            'userIp' => get_client_ip(),
             'goodsInfoList' => $goodsDetail
         ]);
-        return $res;
+    }
+
+    /**
+     * 微信扫码支付
+     * @param  float $amount      支付金额
+     * @param  string $notify      通知回调地址
+     * @param  string $internalUid 企账通用户ID
+     * @return object              
+     */
+    public function payWechatQrCode($amount, $notify, $internalUid = '')
+    {
+        return $this->post([
+            'service' => 'wechatScanCodePay',
+            'payerUserId' => $internalUid,
+            'amount' => $amount,
+            'userIp' => get_client_ip(),
+            'notifyUrl' => $notify,
+        ]);
     }
 }
