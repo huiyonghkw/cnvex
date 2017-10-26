@@ -52,7 +52,7 @@ class HttpTest extends TestCase
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryUser('17092720111513000002');
+        $res = $http->queryUser('', '47301000-b276-11e7-a4ef-1d9415e7f289');
         $this->assertObjectHasAttribute('userId', $res);
     }
 
@@ -99,6 +99,16 @@ class HttpTest extends TestCase
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->queryTransfers('17092720111513000002');
+        $this->assertObjectHasAttribute('rows', $res);
+    }
+
+
+    public function testQueryRechargesAndwithdrawals()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->queryRechargesAndwithdrawals('17101623164200000001');
         $this->assertObjectHasAttribute('rows', $res);
     }
 }
