@@ -99,6 +99,6 @@ class HttpTest extends TestCase
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->queryTransfers('17092720111513000002');
-        $this->assertObjectHasAttribute('tradeStatus', $res);
+        $this->assertObjectHasAttribute('rows', $res);
     }
 }
