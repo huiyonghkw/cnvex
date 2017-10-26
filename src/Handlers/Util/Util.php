@@ -25,6 +25,7 @@ abstract class Util
     public function __construct($logger = null)
     {
         $this->logger = $logger;
+        $this->setMerchOrderNo();
     }
 
     public function getRequestNo()
