@@ -45,15 +45,12 @@ class Http extends Util
     public function post(array $parameters = [])
     {
         if ($parameters) {
+            if (isset($parameters['merchOrderNo'])) {
+                $this->setMerchOrderNo($parameters['merchOrderNo']);
+            }
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
         $parameters['sign'] = $this->signer->signer()->sign($parameters);
-        if ($this->getDebug() && isset($this->logger)) {
-            $this->logger->debug('===Request Api Host===');
-            $this->logger->debug($this->getApiHost());
-            $this->logger->debug('===Request Parameters===');
-            $this->logger->debug($parameters);
-        }
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters
@@ -61,8 +58,15 @@ class Http extends Util
         } catch (RequestException $e) {
             throw $e;
         }
-
         $res = json_decode((string) $response->getBody());
+        if ($this->getDebug() && isset($this->logger)) {
+            $this->logger->debug('===Host:===');
+            $this->logger->debug($this->getApiHost());
+            $this->logger->debug('===Parameters:===');
+            $this->logger->debug($parameters);
+            $this->logger->debug('===Response:===');
+            $this->logger->debug((string) $response->getBody());
+        }
         if ($res->resultCode != 'EXECUTE_SUCCESS' &&
              $res->resultCode != 'EXECUTE_PROCESSING') {
             throw new \Exception('Server request error: '. $res->resultMessage);
