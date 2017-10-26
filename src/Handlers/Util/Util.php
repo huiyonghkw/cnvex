@@ -30,15 +30,28 @@ abstract class Util
     public function getRequestNo()
     {
         list($usec, $sec) = explode(' ', microtime());
-        $this->requestNo = 'RN' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
+        $this->requestNo = 'RQN' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
         return $this->requestNo;
     }
 
     public function getMerchOrderNo()
     {
-        list($usec, $sec) = explode(' ', microtime());
-        $this->merchOrderNo = 'MON' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
         return $this->merchOrderNo;
+    }
+
+    /**
+     * 设置外部交易号
+     * @param string $outTradeNo
+     */
+    public function setMerchOrderNo($outTradeNo = '')
+    {
+        if ($outTradeNo) {
+            $this->merchOrderNo = $outTradeNo;
+        } else {
+            list($usec, $sec) = explode(' ', microtime());
+            $this->merchOrderNo = 'SYS' . date('YmdHis') . intval((float) $sec + ((float) $usec * 100000));
+        }
+        return $this;
     }
 
     public function getVersion()
