@@ -161,12 +161,13 @@ class Api extends Http
      * @param  string $internalUid 企账通用户ID
      * @return object
      */
-    public function payWechatQrCode($amount, $notify, $internalUid = '')
+    public function payWechatQrCode($amount, $notify, $transNo, $internalUid = '')
     {
         return $this->post([
             'service' => 'wechatScanCodePay',
             'payerUserId' => $internalUid,
             'amount' => $amount,
+            'merchOrderNo' => $transNo,
             'userIp' => get_client_ip(),
             'notifyUrl' => $notify,
         ]);
