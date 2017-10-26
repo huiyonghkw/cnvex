@@ -102,4 +102,7 @@ $app->register(Bravist\Cnvex\ServiceProvider::class);
 + 查询用户余额 [queryUserBalance](https://github.com/bravist/cnvex/blob/master/src/Api.php#L51)
 + 发送短信验证码 [sendCaptcha](https://github.com/bravist/cnvex/blob/master/src/Api.php#L69)
 + 注册个人类型用户[registerUser](https://github.com/bravist/cnvex/blob/master/src/Api.php#L93)
-+ 查询转账交易记录 [queryTransaction](https://github.com/bravist/cnvex/blob/master/src/Api.php#L118)
++ 查询单笔转账交易 [queryTransfer]https://github.com/bravist/cnvex/blob/master/src/Api.php#L118)
++ 统一收单交易创建接口 ['createTransaction'](https://github.com/bravist/cnvex/blob/master/src/Api.php#L156)
++ 微信扫码支付 [payWechatQrCode](https://github.com/bravist/cnvex/blob/master/src/Api.php#L180)
++ 查询多笔转账交易记录 [queryTransfers](https://github.com/bravist/cnvex/blob/master/src/Api.php#L207)

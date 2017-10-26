@@ -126,32 +126,16 @@ class Api extends Http
     }
 
     /**
-     * 跳转钱包服务
-     * @param  string $internalUid 企账通用户ID
-     * @return string             
-     */
-    public function redirectWallet($internalUid)
-    {
-        return $this->post([
-            'service' => 'walletRedirect',
-            'userId' => $internalUid,
-            'operatorId' => $internalUid,
-            'requestTime' => date('YmdHis')
-        ]);
-    }
-
-
-    /**
-     * 统一收单交易创建接口 
+     * 统一收单交易创建接口
      * @param  string $subject 订单标题
-     * @param  float $amount  订单总金额，单位为元，精确到小数点后两位   
+     * @param  float $amount  订单总金额，单位为元，精确到小数点后两位
      * @param  integer $seller 卖家企账通用户ID
-     * @param  string $notify 异步回调通知地址  
+     * @param  string $notify 异步回调通知地址
      * @param  integer $buyer 买家企账通用户ID
      * @param  string $clearType 清分类型: MANUAL 手动 AUTO 自动
      * @param  string $body 对交易或商品的描述
      * @param  String $goodsDetail 订单包含的商品列表信息.Json格式
-     * @return Object              
+     * @return Object
      */
     public function createTransaction($subject, $amount, $seller, $notify, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
     {
@@ -161,7 +145,7 @@ class Api extends Http
             'sellerUserId' => $seller,
             'buyerUserId' => $buyer,
             'tradeProfitType' => $clearType,
-            'amount' => (floatval) $amount,
+            'amount' =>  floatval($amount),
             'tradeTime' => date('Y-m-d H:i:s'),
             'tradeMemo' => $body,
             'notifyUrl' => $notify,
@@ -175,7 +159,7 @@ class Api extends Http
      * @param  float $amount      支付金额
      * @param  string $notify      通知回调地址
      * @param  string $internalUid 企账通用户ID
-     * @return object              
+     * @return object
      */
     public function payWechatQrCode($amount, $notify, $internalUid = '')
     {
@@ -202,7 +186,7 @@ REFUND_PROCESSING:交易退款中
 CLOSE:交易关闭
      * @param  integer $page  当前页
      * @param  integer $limit 页面个数
-     * @return array          
+     * @return array
      */
     public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20)
     {
