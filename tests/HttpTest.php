@@ -112,12 +112,21 @@ class HttpTest extends TestCase
         $this->assertObjectHasAttribute('rows', $res);
     }
 
-    public function testqueryBankCards()
+    public function testQueryBankCards()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->queryBankCards('17101623164200000001');
         $this->assertObjectHasAttribute('bankCardInfos', $res);
+    }
+
+    public function testUnbindBankCard()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->unbindBankCard('17101623164200000001', '17101710222500400735');
+        $this->assertNotNull($res);
     }
 }

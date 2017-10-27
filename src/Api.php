@@ -237,24 +237,40 @@ CLOSE:交易关闭
     /**
      * 查询用户绑卡记录
      * @param  string  $internalUid 企账通用户ID
-     * @param  string  $bankPurpose 绑卡用途
+     * @param  string  $purpose 绑卡用途
      *                              IDDEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
-     * @param  string  $bankStatus  银行卡状态
+     * @param  string  $status  银行卡状态
      *                              APPLY:申请; UNACTIVATED:未激活; ENABLE:有效; DISABLE:无效
      * @param  integer $page        当前页
      * @param  integer $limit       页面个数
      * @return array
      */
-    public function queryBankCards($internalUid, $bankPurpose = null, $bankStatus = null, $page = 1, $limit = 20)
+    public function queryBankCards($internalUid, $purpose = null, $status = null, $page = 1, $limit = 20)
     {
       $res = $this->post([
           'service' => 'queryPact',
           'userId' => $internalUid,
-          'purpose' => $bankPurpose,
-          'status' => $bankStatus,
+          'purpose' => $purpose,
+          'status' => $status,
           'start' => $page,
           'limit' => $limit
       ]);
       return $res;
+    }
+
+    /**
+     * 解绑银行卡
+     * @param  string  $internalUid 企账通用户ID
+     * @param  string  $bindId      签约流水号
+     * @return array 
+     */
+    public function unbindBankCard($internalUid, $bindId)
+    {
+        $res = $this->post([
+          'service' => 'cardUnsign',
+          'userId' => $internalUid,
+          'bindId' => $bindId
+        ]);
+        return $res;
     }
 }
