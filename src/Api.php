@@ -259,10 +259,38 @@ CLOSE:交易关闭
     }
 
     /**
+    * 绑定对私银行卡
+    * @param  string $internalUid  企账通用户ID
+    * @param  string $mobile       手机号码
+    * @param  integer $captcha      验证码
+    * @param  string $bankCardNo   银行卡号
+    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+    *                                  COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡; DEBIT_CARD:借记卡; SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+    * @return array
+    */
+   
+   public function bindPersonalBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
+   {
+     $res = $this->post([
+           'service' => 'signCard',
+           'userId' => $internalUid,
+           'mobile' => $mobile,
+           'captcha' => intval($captcha),
+           'bankCardNo' => $bankCardNo,
+           'publicTag' => 'N',
+           'purpose' => $purpose,
+           'bankCardType' => $bankCardType
+     ]);
+     return $res;
+   }
+
+    /**
      * 解绑银行卡
      * @param  string  $internalUid 企账通用户ID
      * @param  string  $bindId      签约流水号
-     * @return array 
+     * @return array
      */
     public function unbindBankCard($internalUid, $bindId)
     {

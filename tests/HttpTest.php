@@ -121,6 +121,15 @@ class HttpTest extends TestCase
         $this->assertObjectHasAttribute('bankCardInfos', $res);
     }
 
+    public function testBindPersonalBankCard()
+    {
+      $app = $this->getDefaults();
+      $manager = new SignatureManager($app['signature']);
+      $http = new Api($manager, new Client(), $app['cnvex']);
+      $res = $http->bindPersonalBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
+      $this->assertNotNull($res);
+    }
+
     public function testUnbindBankCard()
     {
         $app = $this->getDefaults();
