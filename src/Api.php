@@ -282,7 +282,45 @@ CLOSE:交易关闭
            'publicTag' => 'N',
            'purpose' => $purpose,
            'bankCardType' => $bankCardType
-     ]);
+        ]);
+        return $res;
+    }
+
+    /**
+    * 绑定 对公/对公&&对私 银行卡
+    * @param  string $internalUid  企账通用户ID
+    * @param  string $mobile       手机号码
+    * @param  integer $captcha     验证码
+    * @param  string $bankCardNo   银行卡号
+    * @param  string $bankName      银行名称，如 "工商银行"
+    * @param  string $bankCode      银行简称，如 "ICBC"
+    * @param  string $province      开户省，如 "重庆"
+    * @param  string $city          开户市，如 "重庆"
+    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+    *                       COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡;DEBIT_CARD:借记卡;
+    *                       SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+    * @param  string $publicTag     银行卡账户类型，默认为 "Y"
+    *                                   Y:对公; NY:对公&&对私
+    * @return array
+    */
+    public function bindCompanyBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
+    {
+        $res = $this->post([
+           'service' => 'signCard',
+           'userId' => $internalUid,
+           'mobile' => $mobile,
+           'captcha' => intval($captcha),
+           'bankCardNo' => $bankCardNo,
+           'bankName' => $bankName,
+           'bankCode' => $bankCode,
+           'province' => $province,
+           'city' => $city,
+           'purpose' => $purpose,
+           'bankCardType' => $bankCardType,
+           'publicTag' => $publicTag
+        ]);
         return $res;
     }
 
