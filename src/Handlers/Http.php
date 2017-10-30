@@ -14,6 +14,10 @@ class Http extends Util
 
     public $client;
 
+    public $request;
+
+    public $response;
+
     public function __construct(
         SignatureManager $signer,
         Client $client,
@@ -59,8 +63,8 @@ class Http extends Util
             throw $e;
         }
         $res = json_decode((string) $response->getBody());
-        $this->request($parameters);
-        $this->response((string) $response->getBody());
+        $this->setRequest($parameters);
+        $this->setResponse((string) $response->getBody());
         if ($this->getDebug() && isset($this->logger)) {
             $this->logger->debug('===Host:===');
             $this->logger->debug($this->getApiHost());
@@ -76,13 +80,25 @@ class Http extends Util
         return $res;
     }
 
-    public function request($paramters)
+    protected function setRequest($request)
     {
-        return json_encode($paramters);
+        $this->request = json_encode($request);
+        return $this;
     }
 
-    public function response($response)
+    protected function setResponse($response)
     {
-        return $response;
+        $this->response = $response;
+        return $this;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
     }
 }
