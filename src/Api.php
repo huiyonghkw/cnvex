@@ -247,7 +247,7 @@ CLOSE:交易关闭
      */
     public function queryBankCards($internalUid, $purpose = null, $status = null, $page = 1, $limit = 20)
     {
-      $res = $this->post([
+        $res = $this->post([
           'service' => 'queryPact',
           'userId' => $internalUid,
           'purpose' => $purpose,
@@ -255,7 +255,7 @@ CLOSE:交易关闭
           'start' => $page,
           'limit' => $limit
       ]);
-      return $res;
+        return $res;
     }
 
     /**
@@ -271,9 +271,9 @@ CLOSE:交易关闭
     * @return array
     */
    
-   public function bindPersonalBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
-   {
-     $res = $this->post([
+    public function bindPersonalBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
+    {
+        $res = $this->post([
            'service' => 'signCard',
            'userId' => $internalUid,
            'mobile' => $mobile,
@@ -283,8 +283,8 @@ CLOSE:交易关闭
            'purpose' => $purpose,
            'bankCardType' => $bankCardType
      ]);
-     return $res;
-   }
+        return $res;
+    }
 
     /**
      * 解绑银行卡
