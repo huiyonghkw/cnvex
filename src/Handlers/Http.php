@@ -59,6 +59,8 @@ class Http extends Util
             throw $e;
         }
         $res = json_decode((string) $response->getBody());
+        $this->request($parameters);
+        $this->response((string) $response->getBody());
         if ($this->getDebug() && isset($this->logger)) {
             $this->logger->debug('===Host:===');
             $this->logger->debug($this->getApiHost());
@@ -72,5 +74,15 @@ class Http extends Util
             throw new \Exception('Server request error: '. $res->resultMessage);
         }
         return $res;
+    }
+
+    public function request($paramters)
+    {
+        return json_encode($paramters);
+    }
+
+    public function response($response)
+    {
+        return $response;
     }
 }
