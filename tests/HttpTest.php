@@ -16,14 +16,14 @@ class HttpTest extends TestCase
                     'md5' => [
                         'driver' => 'md5',
                         'options' => [
-                            'signKey' => '20ad542cba99a9330dce0429dbeec55e'
+                            'signKey' => '20ad542cba99a9330dce0429dbeec55ec'
                         ]
                     ]
                 ],
                 'cnvex' => [
                     'protocol' => 'HTTP_FORM_JSON',
                     'signType' => 'MD5',
-                    'partnerId' => '17100913073600200074',
+                    'partnerId' => 'c17100913073600200074',
                     'version' => '1.0',
                     'apiHost' => 'http://open.cnvex.cn/gateway.html',
                     'debug' => true,
@@ -121,21 +121,21 @@ class HttpTest extends TestCase
         $this->assertObjectHasAttribute('bankCardInfos', $res);
     }
 
-    public function testBindPersonalBankCard()
+    public function testBindPrivateBankCard()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->bindPersonalBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
+        $res = $http->bindPrivateBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
         $this->assertNotNull($res);
     }
 
-    public function testBindCompanyBankCard()
+    public function testBindPublicBankCard()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->bindCompanyBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号', '银行名称，如：中国邮政储蓄银行', '银行简称，如：PSBC', '开户省，如：重庆', '开户市，如：重庆');
+        $res = $http->bindPublicBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号', '银行名称，如：中国邮政储蓄银行', '银行简称，如：PSBC', '开户省，如：重庆', '开户市，如：重庆');
         $this->assertNotNull($res);
     }
 

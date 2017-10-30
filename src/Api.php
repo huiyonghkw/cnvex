@@ -271,7 +271,7 @@ CLOSE:交易关闭
     * @return array
     */
    
-    public function bindPersonalBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
+    public function bindPrivateBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
     {
         $res = $this->post([
            'service' => 'signCard',
@@ -305,7 +305,7 @@ CLOSE:交易关闭
     *                                   Y:对公; NY:对公&&对私
     * @return array
     */
-    public function bindCompanyBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
+    public function bindPublicBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
     {
         $res = $this->post([
            'service' => 'signCard',
