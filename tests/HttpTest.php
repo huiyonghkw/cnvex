@@ -147,4 +147,14 @@ class HttpTest extends TestCase
         $res = $http->unbindBankCard('17101623164200000001', '17101710222500400735');
         $this->assertNotNull($res);
     }
+
+    public function testQuerySupportCity()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->querySupportCity();
+        dd($res);
+        $this->assertNotNull($res);
+    }
 }

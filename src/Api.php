@@ -339,4 +339,18 @@ CLOSE:交易关闭
         ]);
         return $res;
     }
+
+    /**
+     * 查询支持的城市列表
+     * @param   string $province 省份名称
+     * @return  array
+     */
+    public function querySupportCity($province = null)
+    {
+        $res = $this->post([
+          'service' => 'querySupportCity',
+          'province' => $province
+        ]);
+        return $res;
+    }
 }
