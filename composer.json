@@ -36,7 +36,11 @@
         "laravel": {
             "providers": [
                 "Bravist\\Cnvex\\ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Cnvex": "\\Bravist\\Cnvex\\Facade\\Cnvex",
+                "CnvexSigner": "\\Bravist\\Cnvex\\Facade\\Signature"
+            }
         }
     }
 }
