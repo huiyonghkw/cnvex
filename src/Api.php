@@ -353,4 +353,18 @@ CLOSE:交易关闭
         ]);
         return $res;
     }
+
+    /**
+     * 查询操作员
+     * @param  string  $internalUid 企账通用户ID
+     * @return array
+     */
+    public function queryOperator($internalUid)
+    {
+        $res = $this->post([
+          'service' => 'queryOperator',
+          'userId' => $internalUid
+        ]);
+        return $res;
+    }
 }
