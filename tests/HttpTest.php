@@ -154,7 +154,15 @@ class HttpTest extends TestCase
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->querySupportCity();
-        dd($res);
+        $this->assertNotNull($res);
+    }
+
+    public function testQueryOperator()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->queryOperator('17101623164200000001');
         $this->assertNotNull($res);
     }
 }
