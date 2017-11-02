@@ -237,4 +237,138 @@ CLOSE:交易关闭
         ]);
         return $res->rows;
     }
+
+    /**
+     * 查询用户绑卡记录
+     * @param  string  $internalUid 企账通用户ID
+     * @param  string  $purpose 绑卡用途
+     *                              IDDEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+     * @param  string  $status  银行卡状态
+     *                              APPLY:申请; UNACTIVATED:未激活; ENABLE:有效; DISABLE:无效
+     * @param  integer $page        当前页
+     * @param  integer $limit       页面个数
+     * @return array
+     */
+    public function queryBankCards($internalUid, $purpose = null, $status = null, $page = 1, $limit = 20)
+    {
+        $res = $this->post([
+          'service' => 'queryPact',
+          'userId' => $internalUid,
+          'purpose' => $purpose,
+          'status' => $status,
+          'start' => $page,
+          'limit' => $limit
+      ]);
+        return $res;
+    }
+
+    /**
+    * 绑定对私银行卡
+    * @param  string $internalUid  企账通用户ID
+    * @param  string $mobile       手机号码
+    * @param  integer $captcha      验证码
+    * @param  string $bankCardNo   银行卡号
+    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+    *                                  COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡; DEBIT_CARD:借记卡; SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+    * @return array
+    */
+   
+    public function bindPrivateBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
+    {
+        $res = $this->post([
+           'service' => 'signCard',
+           'userId' => $internalUid,
+           'mobile' => $mobile,
+           'captcha' => intval($captcha),
+           'bankCardNo' => $bankCardNo,
+           'publicTag' => 'N',
+           'purpose' => $purpose,
+           'bankCardType' => $bankCardType
+        ]);
+        return $res;
+    }
+
+    /**
+    * 绑定 对公/对公&&对私 银行卡
+    * @param  string $internalUid  企账通用户ID
+    * @param  string $mobile       手机号码
+    * @param  integer $captcha     验证码
+    * @param  string $bankCardNo   银行卡号
+    * @param  string $bankName      银行名称，如 "工商银行"
+    * @param  string $bankCode      银行简称，如 "ICBC"
+    * @param  string $province      开户省，如 "重庆"
+    * @param  string $city          开户市，如 "重庆"
+    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+    *                       COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡;DEBIT_CARD:借记卡;
+    *                       SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+    * @param  string $publicTag     银行卡账户类型，默认为 "Y"
+    *                                   Y:对公; NY:对公&&对私
+    * @return array
+    */
+    public function bindPublicBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
+    {
+        $res = $this->post([
+           'service' => 'signCard',
+           'userId' => $internalUid,
+           'mobile' => $mobile,
+           'captcha' => intval($captcha),
+           'bankCardNo' => $bankCardNo,
+           'bankName' => $bankName,
+           'bankCode' => $bankCode,
+           'province' => $province,
+           'city' => $city,
+           'purpose' => $purpose,
+           'bankCardType' => $bankCardType,
+           'publicTag' => $publicTag
+        ]);
+        return $res;
+    }
+
+    /**
+     * 解绑银行卡
+     * @param  string  $internalUid 企账通用户ID
+     * @param  string  $bindId      签约流水号
+     * @return array
+     */
+    public function unbindBankCard($internalUid, $bindId)
+    {
+        $res = $this->post([
+          'service' => 'cardUnsign',
+          'userId' => $internalUid,
+          'bindId' => $bindId
+        ]);
+        return $res;
+    }
+
+    /**
+     * 查询支持的城市列表
+     * @param   string $province 省份名称
+     * @return  array
+     */
+    public function querySupportCity($province = null)
+    {
+        $res = $this->post([
+          'service' => 'querySupportCity',
+          'province' => $province
+        ]);
+        return $res;
+    }
+
+    /**
+     * 查询操作员
+     * @param  string  $internalUid 企账通用户ID
+     * @return array
+     */
+    public function queryOperator($internalUid)
+    {
+        $res = $this->post([
+          'service' => 'queryOperator',
+          'userId' => $internalUid
+        ]);
+        return $res;
+    }
 }
