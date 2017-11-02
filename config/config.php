@@ -2,7 +2,7 @@
 
 return [
         'signature' => [
-            'default' => 'md5',
+            'default' =>  env('SIGNATURE_DRIVER', 'md5'),
             'md5' => [
                 'driver' => 'md5',
                 'options' => [
@@ -18,5 +18,9 @@ return [
             'apiHost' => env('CNVEX_API_HOST', 'http://222.180.209.130:8810/gateway.html'),
             'debug' => env('APP_DEBUG', true),
             'notify' => env('CNVEX_NOTIFY', 'http://api.weipeiapp.com.dev/qzt/blance_pay/notify')
-        ]
+        ],
+        /**
+        * 二维码默认过期时间
+        */
+        'qr_code_expired_seconds' => env('EXPIRED_SECONDS', 7200),
     ];
