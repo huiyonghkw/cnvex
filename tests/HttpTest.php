@@ -112,12 +112,57 @@ class HttpTest extends TestCase
         $this->assertObjectHasAttribute('rows', $res);
     }
 
-    public function testqueryBankCards()
+    public function testQueryBankCards()
     {
         $app = $this->getDefaults();
         $manager = new SignatureManager($app['signature']);
         $http = new Api($manager, new Client(), $app['cnvex']);
         $res = $http->queryBankCards('17101623164200000001');
         $this->assertObjectHasAttribute('bankCardInfos', $res);
+    }
+
+    public function testBindPrivateBankCard()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->bindPrivateBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
+        $this->assertNotNull($res);
+    }
+
+    public function testBindPublicBankCard()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->bindPublicBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号', '银行名称，如：中国邮政储蓄银行', '银行简称，如：PSBC', '开户省，如：重庆', '开户市，如：重庆');
+        $this->assertNotNull($res);
+    }
+
+    public function testUnbindBankCard()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->unbindBankCard('17101623164200000001', '17101710222500400735');
+        $this->assertNotNull($res);
+    }
+
+    public function testQuerySupportCity()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->querySupportCity();
+        $this->assertNotNull($res);
+    }
+
+    public function testQueryOperator()
+    {
+        $app = $this->getDefaults();
+        $manager = new SignatureManager($app['signature']);
+        $http = new Api($manager, new Client(), $app['cnvex']);
+        $res = $http->queryOperator('17101623164200000001');
+        $this->assertNotNull($res);
     }
 }
