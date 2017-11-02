@@ -49,7 +49,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->registerClassAliases();
         $this->registerSignature();
         $this->app->singleton('cnvex', function ($app) {
-            return new Api(app('cnvex.signer'), new Client(), config('cnvex.api'), $app->log);
+            return new Api(app('cnvex.signer'), new Client(), config('cnvex.api'));
         });
     }
 
