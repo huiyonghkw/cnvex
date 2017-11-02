@@ -3,6 +3,7 @@
 namespace Bravist\Cnvex;
 
 use Bravist\Cnvex\Handlers\Http;
+use Carbon\Carbon;
 
 class Api extends Http
 {
@@ -107,6 +108,7 @@ class Api extends Http
                 'bankCard' => $bankCard
             ]),
         ]);
+        $this->addOperator($realname, $response->userId, $realname, $mobile, '注册默认操作员');
         return $response->userId;
     }
 
@@ -138,7 +140,7 @@ class Api extends Http
      * @param  String $goodsDetail 订单包含的商品列表信息.Json格式
      * @return Object
      */
-    public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null)
+    public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null, $tradeTime = null)
     {
         return $this->post([
             'service' => 'tradeCreate',
@@ -148,7 +150,7 @@ class Api extends Http
             'buyerUserId' => $buyer,
             'tradeProfitType' => $clearType,
             'amount' =>  floatval($amount),
-            'tradeTime' => date('Y-m-d H:i:s'),
+            'tradeTime' => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
             'tradeMemo' => $body,
             'notifyUrl' => $notify,
             'userIp' => get_client_ip(),
@@ -228,14 +230,13 @@ CLOSE:交易关闭
      */
     public function queryRechargesAndwithdrawals($internalUid, $page = 1, $status = 'SUCCESS', $limit = 20)
     {
-        $res = $this->post([
+        return $this->post([
             'service' => 'fundQueryPage',
             'userId' => $internalUid,
             'fundStatus' => $status,
             'start' => $page,
             'limit' => $limit
         ]);
-        return $res->rows;
     }
 
     /**
@@ -251,15 +252,14 @@ CLOSE:交易关闭
      */
     public function queryBankCards($internalUid, $purpose = null, $status = null, $page = 1, $limit = 20)
     {
-        $res = $this->post([
+        return $this->post([
           'service' => 'queryPact',
           'userId' => $internalUid,
           'purpose' => $purpose,
           'status' => $status,
           'start' => $page,
           'limit' => $limit
-      ]);
-        return $res;
+        ]);
     }
 
     /**
@@ -274,10 +274,10 @@ CLOSE:交易关闭
     *                                  COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡; DEBIT_CARD:借记卡; SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
     * @return array
     */
-   
+
     public function bindPrivateBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
     {
-        $res = $this->post([
+        return $this->post([
            'service' => 'signCard',
            'userId' => $internalUid,
            'mobile' => $mobile,
@@ -287,7 +287,6 @@ CLOSE:交易关闭
            'purpose' => $purpose,
            'bankCardType' => $bankCardType
         ]);
-        return $res;
     }
 
     /**
@@ -311,7 +310,7 @@ CLOSE:交易关闭
     */
     public function bindPublicBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
     {
-        $res = $this->post([
+        return $this->post([
            'service' => 'signCard',
            'userId' => $internalUid,
            'mobile' => $mobile,
@@ -325,7 +324,6 @@ CLOSE:交易关闭
            'bankCardType' => $bankCardType,
            'publicTag' => $publicTag
         ]);
-        return $res;
     }
 
     /**
@@ -336,12 +334,11 @@ CLOSE:交易关闭
      */
     public function unbindBankCard($internalUid, $bindId)
     {
-        $res = $this->post([
+        return $this->post([
           'service' => 'cardUnsign',
           'userId' => $internalUid,
           'bindId' => $bindId
         ]);
-        return $res;
     }
 
     /**
@@ -351,17 +348,16 @@ CLOSE:交易关闭
      */
     public function querySupportCity($province = null)
     {
-        $res = $this->post([
+        return $this->post([
           'service' => 'querySupportCity',
           'province' => $province
         ]);
-        return $res;
     }
 
     /**
      * 查询操作员
      * @param  string  $internalUid 企账通用户ID
-     * @return array
+     * @return string
      */
     public function queryOperator($internalUid)
     {
@@ -369,6 +365,74 @@ CLOSE:交易关闭
           'service' => 'queryOperator',
           'userId' => $internalUid
         ]);
-        return $res;
+
+        $results = array_filter($res->operatorDtos, function ($item) {
+            return $item->status == 'ENABLE';
+        });
+        return $results[0]->operator;
+    }
+
+    /**
+     * 添加操作员
+     * @param string $name
+     * @param string $internalUid
+     * @param string $realname
+     * @param integer $mobile
+     * @param string $comment
+     */
+    public function addOperator($name, $internalUid, $realname, $mobile, $comment = '')
+    {
+        return $this->post([
+                'service' => 'operatorAdd',
+                'operatorName' => $name,
+                'refUserId' => $internalUid,
+                'realName' => $realname,
+                'phone' => $mobile,
+                'comment' => $comment,
+        ]);
+    }
+
+    /**
+     * 钱包跳转服务接口
+     * @param string $internalUid 企账通用户ID
+     * @param  string $target 目标页面，默认为首页
+     * @param  string $title 是否显示页面抬头
+     * @param  string $color 自定义界面主题颜色值
+     * @return string
+     */
+    public function getWalletRedirectUrl($internalUid, $target = '', $title = '', $color = '')
+    {
+        $operatorId = $this->queryOperator($internalUid);
+        return $this->getReturnUrl([
+                'service' => 'walletRedirect',
+                'userId' => $internalUid,
+                'operatorId' => $operatorId,
+                'requestTime' => Carbon::now()->toDateTimeString(),
+                'target' => $target,
+                'showTitle' => $title,
+                'themeColor' => $color
+            ]);
+    }
+
+    /**
+     * 转账，使用企账通余额支付
+     * @param  string  $transNo      商户交易单号
+     * @param  string  $transNo      通知URL
+     * @param  string  $payerId      付款人企账通ID
+     * @param  string  $payerAccount 付款人企账通账户
+     * @param  integer $amount       付款金额
+     * @return string
+     */
+    public function transfer($transNo, $notifyUrl, $payerId = '', $payerAccount = '', $amount = 0)
+    {
+        return $this->post([
+            'service' => 'balancePay',
+            'payerUserId' => $payerId,
+            'payerAccountNo' => $payerAccount,
+            'amount' => $amount,
+            'userIp' => get_client_ip(),
+            'merchOrderNo' => $transNo,
+            'notifyUrl' => $notifyUrl
+        ]);
     }
 }
