@@ -8,9 +8,11 @@ use PHPUnit\Framework\TestCase;
 
 class HttpTest extends TestCase
 {
+    protected $http;
+
     private function getDefaults()
     {
-        return [
+        $app = [
                 'signature' => [
                     'default' => 'md5',
                     'md5' => [
@@ -32,137 +34,137 @@ class HttpTest extends TestCase
                     ]
                 ]
             ];
+        $manager = new SignatureManager($app['signature']);
+        $this->http = new Api($manager, new Client(), $app['cnvex']);
     }
 
     public function testQiZhangTongCanRequest()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Http($manager, new Client(), $app['cnvex']);
+        $this->getDefaults();
         $parameters = [
             'service' => 'queryUser',
             // 'outUserId' => 'E55752A1-B364-4C37-9442-E9D6C0CC8422',
             'userId' => '17092720111513000002'
         ];
-        $this->assertObjectHasAttribute('userInfo', $http->post($parameters));
+        $this->assertObjectHasAttribute('userInfo', $this->http->post($parameters));
     }
 
     public function testQueryUser()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryUser('', '47301000-b276-11e7-a4ef-1d9415e7f289');
+        $this->getDefaults();
+        $res = $this->http->queryUser('17101710025600000001', '');
+        print_r($res);
         $this->assertObjectHasAttribute('userId', $res);
     }
 
     public function testQueryUserBalance()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryUserBalance('17092720111513000002');
+        $this->getDefaults();
+        $res = $this->http->queryUserBalance('17092720111513000002');
         $this->assertObjectHasAttribute('userId', $res);
     }
 
     public function testSendSMS()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->sendCaptcha('15390438190');
+        $this->getDefaults();
+        $res = $this->http->sendCaptcha('15390438190');
         $this->assertTrue($res);
     }
 
     public function testRegisterUser()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->registerUser('D3665263-7925-4858-A461-E90368437643', 111111, 15390438190, '程会勇', '513701198709184016', '6222024402027814403');
+        $this->getDefaults();
+        $res = $this->http->registerUser('D3665263-7925-4858-A461-E90368437643', 111111, 15390438190, '程会勇', '513701198709184016', '6222024402027814403');
         $this->assertNotNull($res);
     }
 
     public function testqueryTransfer()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryTransfer('311710242030203990');
+        $this->getDefaults();
+        $res = $this->http->queryTransfer('311710242030203990');
         $this->assertObjectHasAttribute('tradeStatus', $res);
     }
 
 
     public function testqueryTransfers()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryTransfers('17092720111513000002');
+        $this->getDefaults();
+        $res = $this->http->queryTransfers('17092720111513000002');
         $this->assertObjectHasAttribute('rows', $res);
     }
 
 
     public function testQueryRechargesAndwithdrawals()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryRechargesAndwithdrawals('17101623164200000001');
+        $this->getDefaults();
+        $res = $this->http->queryRechargesAndwithdrawals('17101623164200000001');
         $this->assertObjectHasAttribute('rows', $res);
     }
 
     public function testQueryBankCards()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryBankCards('17101623164200000001');
+        $this->getDefaults();
+        $res = $this->http->queryBankCards('17101623164200000001');
         $this->assertObjectHasAttribute('bankCardInfos', $res);
     }
 
     public function testBindPrivateBankCard()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->bindPrivateBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
+        $this->getDefaults();
+        $res = $this->http->bindPrivateBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号');
         $this->assertNotNull($res);
     }
 
     public function testBindPublicBankCard()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->bindPublicBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号', '银行名称，如：中国邮政储蓄银行', '银行简称，如：PSBC', '开户省，如：重庆', '开户市，如：重庆');
+        $this->getDefaults();
+        $res = $this->http->bindPublicBankCard('17090516350500300001', '手机号码', '验证码', '银行卡号', '银行名称，如：中国邮政储蓄银行', '银行简称，如：PSBC', '开户省，如：重庆', '开户市，如：重庆');
         $this->assertNotNull($res);
     }
 
     public function testUnbindBankCard()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->unbindBankCard('17101623164200000001', '17101710222500400735');
+        $this->getDefaults();
+        $res = $this->http->unbindBankCard('17101623164200000001', '17101710222500400735');
         $this->assertNotNull($res);
     }
 
     public function testQuerySupportCity()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->querySupportCity();
+        $this->getDefaults();
+        $res = $this->http->querySupportCity();
         $this->assertNotNull($res);
     }
 
     public function testQueryOperator()
     {
-        $app = $this->getDefaults();
-        $manager = new SignatureManager($app['signature']);
-        $http = new Api($manager, new Client(), $app['cnvex']);
-        $res = $http->queryOperator('17101623164200000001');
+        $this->getDefaults();
+        $res = $this->http->queryOperator('17101710025600000001');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
+
+    public function testGetWalletRedirectUrl()
+    {
+        $this->getDefaults();
+        $res = $this->http->getWalletRedirectUrl('17101710025600000001');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
+
+    public function testTransfer()
+    {
+        $this->getDefaults();
+        $res = $this->http->transfer('17262020171031115839903121403', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17110210545200200037');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
+
+    public function testCreateTransaction()
+    {
+        $this->getDefaults();
+        $res = $this->http->createTransaction('Iphone 8 64G', '0.01', '17090516350500300008', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171031115839903121403');
+        print_r($res);
         $this->assertNotNull($res);
     }
 }

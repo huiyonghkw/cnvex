@@ -22,9 +22,8 @@ abstract class Util
 
     public $logger = null;
 
-    public function __construct($logger = null)
+    public function __construct()
     {
-        $this->logger = $logger;
         $this->setMerchOrderNo();
     }
 
@@ -135,5 +134,16 @@ abstract class Util
             'signType'      => $this->getSignType(),
             'protocol'      => $this->getProtocol()
         ];
+    }
+
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
     }
 }
