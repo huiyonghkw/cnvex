@@ -53,7 +53,6 @@ class Http extends Util
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
         $parameters['sign'] = $this->signer->signer()->sign($parameters);
-        print_r($parameters);
         try {
             $response = $this->client->post($this->getApiHost(), [
                 'form_params' => $parameters
