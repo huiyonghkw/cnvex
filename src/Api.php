@@ -160,17 +160,19 @@ class Api extends Http
 
     /**
      * 微信扫码支付
-     * @param  float $amount      支付金额
+     * @param  float $amount       支付金额
      * @param  string $notify      通知回调地址
-     * @param  string $transNo 商户交易单号
+     * @param  string $transNo     商户交易单号
+     * @param  string $subject     交易订单标题
      * @param  string $internalUid 企账通用户ID
      * @return object
      */
-    public function payWechatQrCode($amount, $notify, $transNo, $internalUid = '')
+    public function payWechatQrCode($amount, $notify, $transNo, $subject, $internalUid = '')
     {
         return $this->post([
             'service' => 'wechatScanCodePay',
             'payerUserId' => $internalUid,
+            'productInfo' => $subject,
             'amount' => $amount,
             'merchOrderNo' => $transNo,
             'userIp' => get_client_ip(),
