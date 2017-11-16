@@ -74,7 +74,7 @@ class HttpTest extends TestCase
     public function testRegisterUser()
     {
         $this->getDefaults();
-        $res = $this->http->registerUser('D3665263-7925-4858-A461-E90368437643', 111111, 15390438190, '程会勇', '513701198709184016', '6222024402027814403');
+        $res = $this->http->registerUser('D3665263-7925-4858-A461-E90368437622', 398129, 15390438190, '程会勇', '513701198709184016', '6222024402027814403');
         $this->assertNotNull($res);
     }
 

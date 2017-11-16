@@ -49,6 +49,8 @@ class Http extends Util
         if ($parameters) {
             if (isset($parameters['merchOrderNo'])) {
                 $this->setMerchOrderNo($parameters['merchOrderNo']);
+            } else {
+                $this->setMerchOrderNo();
             }
             $parameters = array_merge($this->configureDefaults(), array_filter($parameters));
         }
