@@ -167,4 +167,12 @@ class HttpTest extends TestCase
         print_r($res);
         $this->assertNotNull($res);
     }
+
+    public function testWithdraw()
+    {
+        $this->getDefaults();
+        $res = $this->http->withdraw('代扣绑卡ID', '用户UserId', '用户账户', '0.01', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '2017-11-17 10:10:10', 'cnvex SDK提现测试');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
 }
