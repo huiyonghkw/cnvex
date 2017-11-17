@@ -441,28 +441,25 @@ class Api extends Http
     /**
      * 提现
      * @param  string  $bindId       代扣绑卡ID
-     * @param  string  $userId       用户UserId
+     * @param  string  $internalUid  企账通用户ID
      * @param  string  $accountNo    用户账户
      * @param  integer $amount       付款金额
      * @param  integer $notifyUrl    通知URL
      * @param  integer $tradeTime    交易时间
      * @param  integer $tradeMemo    交易备注
-     * @param  integer $userIp       用户IP
-     * @param  integer $macAddress   用户MAC地址
      *
      */
-    public function withdraw($bindId, $userId, $accountNo, $amount, $notifyUrl, $tradeTime = '', $tradeMemo = '', $userIp = '', $macAddress = '')
+    public function withdraw($bindId, $internalUid, $accountNo, $amount, $notifyUrl, $tradeTime = null, $tradeMemo = null)
     {
         return $this->post([
             'service'    => 'withdraw',
             'bindId'     => $bindId,
-            'userId'     => $userId,
+            'userId'     => $internalUid,
             'accountNo'  => $accountNo,
             'amount'     => $amount,
-            'tradeTime'  => $tradeTime,
+            'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
             'tradeMemo'  => $tradeMemo,
-            'userIp'     => $userIp,
-            'macAddress' => $macAddress,
+            'userIp'     => get_client_ip(),
             'notifyUrl'  => $notifyUrl,
         ]);
 
