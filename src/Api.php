@@ -16,9 +16,9 @@ class Api extends Http
     public function queryUser($internalUid = '', $externalUid = '')
     {
         $response = $this->post([
-            'service' => 'queryUser',
-            'userId' => $internalUid,
-            'outUserId' => $externalUid
+            'service'   => 'queryUser',
+            'userId'    => $internalUid,
+            'outUserId' => $externalUid,
         ]);
         if (!isset($response->userInfo[0])) {
             throw new \RuntimeException('未找到企账通用户');
@@ -53,7 +53,7 @@ class Api extends Http
     {
         $response = $this->post([
             'service' => 'queryAccount',
-            'userId' => $internalUid
+            'userId'  => $internalUid,
         ]);
         if (!isset($response->account)) {
             throw new \RuntimeException('企账通余额账户信息错误');
@@ -69,12 +69,12 @@ class Api extends Http
      */
     public function sendCaptcha($mobile, $internalUid = '')
     {
-        $type = $internalUid ? 'BIND_BANK_CARD' : 'REGISTER';
+        $type     = $internalUid ? 'BIND_BANK_CARD' : 'REGISTER';
         $response = $this->post([
-            'service' => 'smsCapthaSend',
-            'userId' => $internalUid,
-            'mobile' => $mobile,
-            'smsCaptchaType' => $type
+            'service'        => 'smsCapthaSend',
+            'userId'         => $internalUid,
+            'mobile'         => $mobile,
+            'smsCaptchaType' => $type,
         ]);
         return (boolean) $response->success;
     }
@@ -94,18 +94,18 @@ class Api extends Http
     public function registerUser($externalUid, $captcha, $mobile, $realname, $idCard, $bankCard, $from = 'MOBILE', $email = '')
     {
         $response = $this->post([
-            'service' => 'commonAuditRegister',
-            'outUserId' => $externalUid,
-            'type' => 'PERSON',
-            'grade' => 'LV_1',
-            'captcha' => $captcha,
-            'email' => $email,
-            'mobileNo' => $mobile,
-            'registerClient' => $from,
+            'service'           => 'commonAuditRegister',
+            'outUserId'         => $externalUid,
+            'type'              => 'PERSON',
+            'grade'             => 'LV_1',
+            'captcha'           => $captcha,
+            'email'             => $email,
+            'mobileNo'          => $mobile,
+            'registerClient'    => $from,
             'personRegisterDto' => json_encode([
                 'realName' => $realname,
-                'certNo' => $idCard,
-                'bankCard' => $bankCard
+                'certNo'   => $idCard,
+                'bankCard' => $bankCard,
             ]),
         ]);
         $this->addOperator($realname, $response->userId, $realname, $mobile, '注册默认操作员');
@@ -120,8 +120,8 @@ class Api extends Http
     public function queryTransfer($orignalNo)
     {
         $res = $this->post([
-            'service' => 'tradeQuery',
-            'origOrderNo' => $orignalNo
+            'service'     => 'tradeQuery',
+            'origOrderNo' => $orignalNo,
         ]);
 
         return $res->tradeOrder;
@@ -143,18 +143,18 @@ class Api extends Http
     public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null, $tradeTime = null)
     {
         return $this->post([
-            'service' => 'tradeCreate',
-            'merchOrderNo' => $transNo,
-            'tradeName' => $subject,
-            'sellerUserId' => $seller,
-            'buyerUserId' => $buyer,
+            'service'         => 'tradeCreate',
+            'merchOrderNo'    => $transNo,
+            'tradeName'       => $subject,
+            'sellerUserId'    => $seller,
+            'buyerUserId'     => $buyer,
             'tradeProfitType' => $clearType,
-            'amount' =>  floatval($amount),
-            'tradeTime' => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
-            'tradeMemo' => $body,
-            'notifyUrl' => $notify,
-            'userIp' => get_client_ip(),
-            'goodsInfoList' => $goodsDetail
+            'amount'          => floatval($amount),
+            'tradeTime'       => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
+            'tradeMemo'       => $body,
+            'notifyUrl'       => $notify,
+            'userIp'          => get_client_ip(),
+            'goodsInfoList'   => $goodsDetail,
         ]);
     }
 
@@ -170,13 +170,13 @@ class Api extends Http
     public function payWechatQrCode($amount, $notify, $transNo, $subject, $internalUid = '')
     {
         return $this->post([
-            'service' => 'wechatScanCodePay',
-            'payerUserId' => $internalUid,
-            'productInfo' => $subject,
-            'amount' => $amount,
+            'service'      => 'wechatScanCodePay',
+            'payerUserId'  => $internalUid,
+            'productInfo'  => $subject,
+            'amount'       => $amount,
             'merchOrderNo' => $transNo,
-            'userIp' => get_client_ip(),
-            'notifyUrl' => $notify,
+            'userIp'       => get_client_ip(),
+            'notifyUrl'    => $notify,
         ]);
     }
 
@@ -185,13 +185,13 @@ class Api extends Http
      * @param  string  $seller 卖家企账通用户ID
      * @param  string  $buyer  买家企账通用户ID
      * @param  string  $status INIT:初始状态
-PROCESSING:支付中
-SUCCESS:交易成功
-FAIL:交易失败
-CANCEL:交易撤销
-REFUND:交易退款
-REFUND_PROCESSING:交易退款中
-CLOSE:交易关闭
+    PROCESSING:支付中
+    SUCCESS:交易成功
+    FAIL:交易失败
+    CANCEL:交易撤销
+    REFUND:交易退款
+    REFUND_PROCESSING:交易退款中
+    CLOSE:交易关闭
      * @param  integer $page  当前页
      * @param  integer $limit 页面个数
      * @return array
@@ -199,12 +199,12 @@ CLOSE:交易关闭
     public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20)
     {
         return $this->post([
-            'service' => 'tradeQueryPage',
+            'service'      => 'tradeQueryPage',
             'sellerUserId' => $seller,
-            'buyerUserId' => $buyer,
-            'tradeStatus' => $status,
-            'start' => $page,
-            'limit' => $limit
+            'buyerUserId'  => $buyer,
+            'tradeStatus'  => $status,
+            'start'        => $page,
+            'limit'        => $limit,
         ]);
     }
 
@@ -216,8 +216,8 @@ CLOSE:交易关闭
     public function queryRechargeAndwithdrawal($orignalNo)
     {
         $res = $this->post([
-            'service' => 'fundQuery',
-            'origOrderNo' => $orignalNo
+            'service'     => 'fundQuery',
+            'origOrderNo' => $orignalNo,
         ]);
         return $res->tradeOrderInfo;
     }
@@ -233,11 +233,11 @@ CLOSE:交易关闭
     public function queryRechargesAndwithdrawals($internalUid, $page = 1, $status = 'SUCCESS', $limit = 20)
     {
         return $this->post([
-            'service' => 'fundQueryPage',
-            'userId' => $internalUid,
+            'service'    => 'fundQueryPage',
+            'userId'     => $internalUid,
             'fundStatus' => $status,
-            'start' => $page,
-            'limit' => $limit
+            'start'      => $page,
+            'limit'      => $limit,
         ]);
     }
 
@@ -255,76 +255,76 @@ CLOSE:交易关闭
     public function queryBankCards($internalUid, $purpose = null, $status = null, $page = 1, $limit = 20)
     {
         return $this->post([
-          'service' => 'queryPact',
-          'userId' => $internalUid,
-          'purpose' => $purpose,
-          'status' => $status,
-          'start' => $page,
-          'limit' => $limit
+            'service' => 'queryPact',
+            'userId'  => $internalUid,
+            'purpose' => $purpose,
+            'status'  => $status,
+            'start'   => $page,
+            'limit'   => $limit,
         ]);
     }
 
     /**
-    * 绑定对私银行卡
-    * @param  string $internalUid  企账通用户ID
-    * @param  string $mobile       手机号码
-    * @param  integer $captcha      验证码
-    * @param  string $bankCardNo   银行卡号
-    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
-    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
-    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
-    *                                  COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡; DEBIT_CARD:借记卡; SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
-    * @return array
-    */
+     * 绑定对私银行卡
+     * @param  string $internalUid  企账通用户ID
+     * @param  string $mobile       手机号码
+     * @param  integer $captcha      验证码
+     * @param  string $bankCardNo   银行卡号
+     * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+     *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+     * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+     *                                  COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡; DEBIT_CARD:借记卡; SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+     * @return array
+     */
 
     public function bindPrivateBankCard($internalUid, $mobile, $captcha, $bankCardNo, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD')
     {
         return $this->post([
-           'service' => 'signCard',
-           'userId' => $internalUid,
-           'mobile' => $mobile,
-           'captcha' => intval($captcha),
-           'bankCardNo' => $bankCardNo,
-           'publicTag' => 'N',
-           'purpose' => $purpose,
-           'bankCardType' => $bankCardType
+            'service'      => 'signCard',
+            'userId'       => $internalUid,
+            'mobile'       => $mobile,
+            'captcha'      => intval($captcha),
+            'bankCardNo'   => $bankCardNo,
+            'publicTag'    => 'N',
+            'purpose'      => $purpose,
+            'bankCardType' => $bankCardType,
         ]);
     }
 
     /**
-    * 绑定 对公/对公&&对私 银行卡
-    * @param  string $internalUid  企账通用户ID
-    * @param  string $mobile       手机号码
-    * @param  integer $captcha     验证码
-    * @param  string $bankCardNo   银行卡号
-    * @param  string $bankName      银行名称，如 "工商银行"
-    * @param  string $bankCode      银行简称，如 "ICBC"
-    * @param  string $province      开户省，如 "重庆"
-    * @param  string $city          开户市，如 "重庆"
-    * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
-    *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
-    * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
-    *                       COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡;DEBIT_CARD:借记卡;
-    *                       SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
-    * @param  string $publicTag     银行卡账户类型，默认为 "Y"
-    *                                   Y:对公; NY:对公&&对私
-    * @return array
-    */
+     * 绑定 对公/对公&&对私 银行卡
+     * @param  string $internalUid  企账通用户ID
+     * @param  string $mobile       手机号码
+     * @param  integer $captcha     验证码
+     * @param  string $bankCardNo   银行卡号
+     * @param  string $bankName      银行名称，如 "工商银行"
+     * @param  string $bankCode      银行简称，如 "ICBC"
+     * @param  string $province      开户省，如 "重庆"
+     * @param  string $city          开户市，如 "重庆"
+     * @param  string $purpose      绑卡用途,默认为 "WITHDRAW"
+     *                                  DEDUCT:代扣; WITHDRAW:提现; PACT_BOTH:代扣提现
+     * @param  string $bankCardType 卡种,默认为 "DEBIT_CARD"
+     *                       COMPANY_CARD:企业账户; CREDIT_CARD:贷记卡;DEBIT_CARD:借记卡;
+     *                       SEMI_CREDIT:准贷记卡; PREPAID:预付费卡; DEBIT_CREDIT:借贷一体; ALL:所有卡种
+     * @param  string $publicTag     银行卡账户类型，默认为 "Y"
+     *                                   Y:对公; NY:对公&&对私
+     * @return array
+     */
     public function bindPublicBankCard($internalUid, $mobile, $captcha, $bankCardNo, $bankName, $bankCode, $province, $city, $purpose = 'WITHDRAW', $bankCardType = 'DEBIT_CARD', $publicTag = 'Y')
     {
         return $this->post([
-           'service' => 'signCard',
-           'userId' => $internalUid,
-           'mobile' => $mobile,
-           'captcha' => intval($captcha),
-           'bankCardNo' => $bankCardNo,
-           'bankName' => $bankName,
-           'bankCode' => $bankCode,
-           'province' => $province,
-           'city' => $city,
-           'purpose' => $purpose,
-           'bankCardType' => $bankCardType,
-           'publicTag' => $publicTag
+            'service'      => 'signCard',
+            'userId'       => $internalUid,
+            'mobile'       => $mobile,
+            'captcha'      => intval($captcha),
+            'bankCardNo'   => $bankCardNo,
+            'bankName'     => $bankName,
+            'bankCode'     => $bankCode,
+            'province'     => $province,
+            'city'         => $city,
+            'purpose'      => $purpose,
+            'bankCardType' => $bankCardType,
+            'publicTag'    => $publicTag,
         ]);
     }
 
@@ -337,9 +337,9 @@ CLOSE:交易关闭
     public function unbindBankCard($internalUid, $bindId)
     {
         return $this->post([
-          'service' => 'cardUnsign',
-          'userId' => $internalUid,
-          'bindId' => $bindId
+            'service' => 'cardUnsign',
+            'userId'  => $internalUid,
+            'bindId'  => $bindId,
         ]);
     }
 
@@ -351,8 +351,8 @@ CLOSE:交易关闭
     public function querySupportCity($province = null)
     {
         return $this->post([
-          'service' => 'querySupportCity',
-          'province' => $province
+            'service'  => 'querySupportCity',
+            'province' => $province,
         ]);
     }
 
@@ -364,8 +364,8 @@ CLOSE:交易关闭
     public function queryOperator($internalUid)
     {
         $res = $this->post([
-          'service' => 'queryOperator',
-          'userId' => $internalUid
+            'service' => 'queryOperator',
+            'userId'  => $internalUid,
         ]);
 
         $results = array_filter($res->operatorDtos, function ($item) {
@@ -385,12 +385,12 @@ CLOSE:交易关闭
     public function addOperator($name, $internalUid, $realname, $mobile, $comment = '')
     {
         return $this->post([
-                'service' => 'operatorAdd',
-                'operatorName' => $name,
-                'refUserId' => $internalUid,
-                'realName' => $realname,
-                'phone' => $mobile,
-                'comment' => $comment,
+            'service'      => 'operatorAdd',
+            'operatorName' => $name,
+            'refUserId'    => $internalUid,
+            'realName'     => $realname,
+            'phone'        => $mobile,
+            'comment'      => $comment,
         ]);
     }
 
@@ -406,14 +406,14 @@ CLOSE:交易关闭
     {
         $operatorId = $this->queryOperator($internalUid);
         return $this->getReturnUrl([
-                'service' => 'walletRedirect',
-                'userId' => $internalUid,
-                'operatorId' => $operatorId,
-                'requestTime' => Carbon::now()->toDateTimeString(),
-                'target' => $target,
-                'showTitle' => $title,
-                'themeColor' => $color
-            ]);
+            'service'     => 'walletRedirect',
+            'userId'      => $internalUid,
+            'operatorId'  => $operatorId,
+            'requestTime' => Carbon::now()->toDateTimeString(),
+            'target'      => $target,
+            'showTitle'   => $title,
+            'themeColor'  => $color,
+        ]);
     }
 
     /**
@@ -428,13 +428,43 @@ CLOSE:交易关闭
     public function transfer($transNo, $notifyUrl, $payerId = '', $payerAccount = '', $amount = 0)
     {
         return $this->post([
-            'service' => 'balancePay',
-            'payerUserId' => $payerId,
+            'service'        => 'balancePay',
+            'payerUserId'    => $payerId,
             'payerAccountNo' => $payerAccount,
-            'amount' => $amount,
-            'userIp' => get_client_ip(),
-            'merchOrderNo' => $transNo,
-            'notifyUrl' => $notifyUrl
+            'amount'         => $amount,
+            'userIp'         => get_client_ip(),
+            'merchOrderNo'   => $transNo,
+            'notifyUrl'      => $notifyUrl,
         ]);
+    }
+
+    /**
+     * 提现
+     * @param  string  $bindId       代扣绑卡ID
+     * @param  string  $userId       用户UserId
+     * @param  string  $accountNo    用户账户
+     * @param  integer $amount       付款金额
+     * @param  integer $notifyUrl    通知URL
+     * @param  integer $tradeTime    交易时间
+     * @param  integer $tradeMemo    交易备注
+     * @param  integer $userIp       用户IP
+     * @param  integer $macAddress   用户MAC地址
+     *
+     */
+    public function withdraw($bindId, $userId, $accountNo, $amount, $notifyUrl, $tradeTime = '', $tradeMemo = '', $userIp = '', $macAddress = '')
+    {
+        return $this->post([
+            'service'    => 'withdraw',
+            'bindId'     => $bindId,
+            'userId'     => $userId,
+            'accountNo'  => $accountNo,
+            'amount'     => $amount,
+            'tradeTime'  => $tradeTime,
+            'tradeMemo'  => $tradeMemo,
+            'userIp'     => $userIp,
+            'macAddress' => $macAddress,
+            'notifyUrl'  => $notifyUrl,
+        ]);
+
     }
 }
