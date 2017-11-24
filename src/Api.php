@@ -108,7 +108,7 @@ class Api extends Http
                 'bankCard' => $bankCard,
             ]),
         ]);
-        $this->addOperator($realname, $response->userId, $realname, $mobile, '注册默认操作员');
+        //$this->addOperator($realname, $response->userId, $realname, $mobile, '注册默认操作员');
         return $response->userId;
     }
 
