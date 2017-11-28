@@ -402,9 +402,8 @@ class Api extends Http
      * @param  string $color 自定义界面主题颜色值
      * @return string
      */
-    public function getWalletRedirectUrl($internalUid, $target = '', $title = '', $color = '')
+    public function getWalletRedirectUrl($internalUid, $target = '', $title = '', $color = '', $operatorId = '')
     {
-        $operatorId = $this->queryOperator($internalUid);
         return $this->getReturnUrl([
             'service'     => 'walletRedirect',
             'userId'      => $internalUid,
