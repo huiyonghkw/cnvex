@@ -419,12 +419,12 @@ class Api extends Http
      * 转账，使用企账通余额支付
      * @param  string  $transNo      商户交易单号
      * @param  string  $transNo      通知URL
+     * @param  integer $amount       付款金额
      * @param  string  $payerId      付款人企账通ID
      * @param  string  $payerAccount 付款人企账通账户
-     * @param  integer $amount       付款金额
      * @return string
      */
-    public function transfer($transNo, $notifyUrl, $payerId = '', $payerAccount = '', $amount = 0)
+    public function transfer($transNo, $notifyUrl, $amount, $payerId = '', $payerAccount = '')
     {
         return $this->post([
             'service'        => 'balancePay',
@@ -439,16 +439,17 @@ class Api extends Http
 
     /**
      * 提现
-     * @param  string  $bindId       代扣绑卡ID
-     * @param  string  $internalUid  企账通用户ID
-     * @param  string  $accountNo    用户账户
-     * @param  integer $amount       付款金额
-     * @param  integer $notifyUrl    通知URL
-     * @param  integer $tradeTime    交易时间
-     * @param  integer $tradeMemo    交易备注
-     *
+     * @param  string $bindId      代扣绑卡ID
+     * @param  string $internalUid 企账通用户ID
+     * @param  string $transNo     交易号
+     * @param  int $amount          金额
+     * @param  string $notifyUrl   通知URL
+     * @param  string $accountNo   账户
+     * @param  string $tradeTime   交易时间
+     * @param  string $tradeMemo   备注
+     * @return void
      */
-    public function withdraw($bindId, $internalUid, $accountNo, $amount, $notifyUrl, $tradeTime = null, $tradeMemo = null)
+    public function withdraw($bindId, $internalUid, $transNo, $amount, $notifyUrl, $accountNo = null, $tradeTime = null, $tradeMemo = null)
     {
         return $this->post([
             'service'    => 'withdraw',
@@ -458,9 +459,9 @@ class Api extends Http
             'amount'     => $amount,
             'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
             'tradeMemo'  => $tradeMemo,
+            'merchOrderNo'   => $transNo,
             'userIp'     => get_client_ip(),
             'notifyUrl'  => $notifyUrl,
         ]);
-
     }
 }
