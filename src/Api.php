@@ -165,14 +165,44 @@ class Api extends Http
      * @param  string $transNo     商户交易单号
      * @param  string $subject     交易订单标题
      * @param  string $internalUid 企账通用户ID
+     * @param  string $payerAccountNo 企账通用户账户
      * @return object
      */
-    public function payWechatQrCode($amount, $notify, $transNo, $subject, $internalUid = '')
+    public function payWechatQrCode($amount, $notify, $transNo, $subject, $internalUid = '', $payerAccountNo = '')
     {
         return $this->post([
             'service'      => 'wechatScanCodePay',
             'payerUserId'  => $internalUid,
+            'payerAccountNo'  => $payerAccountNo,
             'productInfo'  => $subject,
+            'amount'       => $amount,
+            'merchOrderNo' => $transNo,
+            'userIp'       => get_client_ip(),
+            'notifyUrl'    => $notify,
+        ]);
+    }
+
+    /**
+     * 微信APP原生支付
+     * @param  float $amount       支付金额
+     * @param  string $notify      通知回调地址
+     * @param  string $transNo     商户交易单号
+     * @param  string $subject     交易订单标题
+     * @param  string $wechatAppId 微信APP支付开放平台应用ID
+     * @param  string $deviceType IOS:IOS设备 ANDROID:android设备
+     * @param  string $internalUid 企账通用户ID
+     * @param  string $payerAccountNo 企账通用户账户
+     * @return object
+     */
+    public function payWechatNative($amount, $notify, $transNo, $subject, $wechatAppId, $deviceType = '', $internalUid = '', $payerAccountNo = '')
+    {
+        return $this->post([
+            'service'      => 'wechatAppPay',
+            'appid'  => $wechatAppId,
+            'deviceType'  => $deviceType,
+            'productInfo'  => $subject,
+            'payerUserId'  => $internalUid,
+            'payerAccountNo'  => $payerAccountNo,
             'amount'       => $amount,
             'merchOrderNo' => $transNo,
             'userIp'       => get_client_ip(),
