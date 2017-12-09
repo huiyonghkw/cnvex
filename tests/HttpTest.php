@@ -155,7 +155,7 @@ class HttpTest extends TestCase
     public function testTransfer()
     {
         $this->getDefaults();
-        $res = $this->http->transfer('17262020171031115839903121403', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17110210545200200037');
+        $res = $this->http->transfer('17262020171204160431992102817', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '1205', '17101623163100000175');
         print_r($res);
         $this->assertNotNull($res);
     }
@@ -163,7 +163,7 @@ class HttpTest extends TestCase
     public function testCreateTransaction()
     {
         $this->getDefaults();
-        $res = $this->http->createTransaction('Iphone 8 64G', '0.01', '17090516350500300008', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171031115839903121403');
+        $res = $this->http->createTransaction('天天城西取款账户向监管账户转款1205元', '1205', '17101623163100000265', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171204160431992102817', '17101623163100000175');
         print_r($res);
         $this->assertNotNull($res);
     }
