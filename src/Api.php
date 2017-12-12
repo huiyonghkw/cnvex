@@ -495,42 +495,64 @@ class Api extends Http
         ]);
     }
 
+
     /**
-     * Offline Order Sync
-     * @param  string $transNo 交易单号      
-     * @param  string $bankTradeNo  银行交易流水单号
-     * @param  string $tradeName 交易名称
-     * @param  string $seller 卖方企账通ID
-     * @param  string $buyer 买方企账通ID      
-     * @param  string $notifyUrl 异步通知URL      
-     * @param  string $clearingType  清算类型 MANUAL:手动 AUTO:自动
-     * @param  string $tradeTime 交易时间    
-     * @param  string $payer 付款人企账通ID        
-     * @param  string $sellerAccount 卖方企账通账户
-     * @param  string $buyerAccount  买方企账通账户 
-     * @param  string $remark  备注 
-     * @param  string $body 交易分润列表        
-     * @param  string $goodsDetail  商品列表 
-     * @return string                
+     * 
+     * http://bxapi.cnvex.cn/apiService/intoServiceDetailInfo.html?serviceNo=offlineOrderSynchronize_1.0&schemeName=%E9%80%9A%E7%94%A8%E6%9C%8D%E5%8A%A1&schemeId=1#
+     * @param  [type] $transNo          
+     * @param  [type] $posMerchantNo    
+     * @param  [type] $posClientNo      
+     * @param  [type] $posBatchNo       
+     * @param  [type] $posTransactionNo 
+     * @param  [type] $tradeName        
+     * @param  [type] $seller           
+     * @param  [type] $buyer            
+     * @param  [type] $notifyUrl        
+     * @param  [type] $bankName         
+     * @param  [type] $bankCardNo       
+     * @param  [type] $bankCardType     
+     * @param  string $bankAccountType  PUBLIC：对公， PRIVATE：对私
+     * @param  string $clearingType     
+     * @param  string $tradeTime        
+     * @param  string $payer            
+     * @param  string $payerAccount     
+     * @param  string $sellerAccount    
+     * @param  string $buyerAccount     
+     * @param  string $remark           
+     * @param  string $body             
+     * @param  [type] $goodsDetail      
+     * @return [type]                   
      */
-    public function offlineOrderSync($transNo, $bankTradeNo, $tradeName, $seller, $buyer, $notifyUrl， $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = null)
+    public function posQrCodeOrderSync($transNo, $posMerchantNo, $posClientNo, $posBatchNo, $posTransactionNo,  $tradeName, $seller, $buyer, $notifyUrl, $bankName, $bankCardNo, $bankCardType, $bankAccountType = 'PRIVATE', $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $payerAccount = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = '', $posTradeNo = '', $posOutOrderNo = '')
     {
         return $this->post([
-            'service'    => 'offlineOrderSynchronize',
-            'bankTradeWaterNo'     => $bankTradeNo,
+            'service'    => 'posOrderSynchronize',
             'tradeName'     => $tradeName,
+            'posTradeNo'     => $posTradeNo,
+            'posOutOrderNo'     => $posOutOrderNo,
+            'posMerchantNo'     => $posMerchantNo,
+            'posClientNo'     => $posClientNo,
+            'posBatchNo'     => $posBatchNo,
+            'posTransactionNo'     => $posTransactionNo,
             'sellerUserId'  => $seller,
+            'sellerAccountNo'  => $sellerAccount,
             'sellerOrgName'  => $sellerAccount,
-            'buyerOrgName'  => $buyerAccount,
             'buyerUserId'  => $buyer,
+            'buyerOrgName'  => $buyerAccount,
             'payerUserId'  => $payer,
-            'tradeProfitType'  => $clearingType,
+            'payerAccountNo'  => $payerAccount,
+            'bankName'  => $bankName,
+            'bankCardNo'  => $bankCardNo,
+            'bankCardType'  => $bankCardType,
+            'bankAccountType'  => $clearingType,
+            'amount'  => $clearingType,
             'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
             'tradeMemo'  => $remark,
             'merchOrderNo'   => $transNo,
             'goodsInfoList'     => $goodsDetail,
-            'tradeProfitInfoList' => $body
+            'tradeProfitInfoList' => $body,
             'notifyUrl'  => $notifyUrl,
+            'tradeProfitType'  => $clearingType,
         ]);
     }
 }
