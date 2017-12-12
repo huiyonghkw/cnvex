@@ -494,4 +494,43 @@ class Api extends Http
             'notifyUrl'  => $notifyUrl,
         ]);
     }
+
+    /**
+     * Offline Order Sync
+     * @param  string $transNo 交易单号      
+     * @param  string $bankTradeNo  银行交易流水单号
+     * @param  string $tradeName 交易名称
+     * @param  string $seller 卖方企账通ID
+     * @param  string $buyer 买方企账通ID      
+     * @param  string $notifyUrl 异步通知URL      
+     * @param  string $clearingType  清算类型 MANUAL:手动 AUTO:自动
+     * @param  string $tradeTime 交易时间    
+     * @param  string $payer 付款人企账通ID        
+     * @param  string $sellerAccount 卖方企账通账户
+     * @param  string $buyerAccount  买方企账通账户 
+     * @param  string $remark  备注 
+     * @param  string $body 交易分润列表        
+     * @param  string $goodsDetail  商品列表 
+     * @return string                
+     */
+    public function offlineOrderSync($transNo, $bankTradeNo, $tradeName, $seller, $buyer, $notifyUrl， $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = null)
+    {
+        return $this->post([
+            'service'    => 'offlineOrderSynchronize',
+            'bankTradeWaterNo'     => $bankTradeNo,
+            'tradeName'     => $tradeName,
+            'sellerUserId'  => $seller,
+            'sellerOrgName'  => $sellerAccount,
+            'buyerOrgName'  => $buyerAccount,
+            'buyerUserId'  => $buyer,
+            'payerUserId'  => $payer,
+            'tradeProfitType'  => $clearingType,
+            'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
+            'tradeMemo'  => $remark,
+            'merchOrderNo'   => $transNo,
+            'goodsInfoList'     => $goodsDetail,
+            'tradeProfitInfoList' => $body
+            'notifyUrl'  => $notifyUrl,
+        ]);
+    }
 }

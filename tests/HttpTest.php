@@ -52,7 +52,7 @@ class HttpTest extends TestCase
     public function testQueryUser()
     {
         $this->getDefaults();
-        $res = $this->http->queryUser('17101710025600000001', '');
+        $res = $this->http->queryUser('17101623163100000011', '');
         print_r($res);
         $this->assertObjectHasAttribute('userId', $res);
     }
@@ -147,7 +147,7 @@ class HttpTest extends TestCase
     public function testGetWalletRedirectUrl()
     {
         $this->getDefaults();
-        $res = $this->http->getWalletRedirectUrl('17101710025600000001');
+        $res = $this->http->getWalletRedirectUrl('17090516275900200008', '', '', '', '17101710025600000001');
         print_r($res);
         $this->assertNotNull($res);
     }
@@ -155,7 +155,7 @@ class HttpTest extends TestCase
     public function testTransfer()
     {
         $this->getDefaults();
-        $res = $this->http->transfer('17262020171204160431992102817', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '1205', '17101623163100000175');
+        $res = $this->http->transfer('17262020171204160431992102820', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '3060', '17101623163100000288');
         print_r($res);
         $this->assertNotNull($res);
     }
@@ -163,7 +163,7 @@ class HttpTest extends TestCase
     public function testCreateTransaction()
     {
         $this->getDefaults();
-        $res = $this->http->createTransaction('天天城西取款账户向监管账户转款1205元', '1205', '17101623163100000265', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171204160431992102817', '17101623163100000175');
+        $res = $this->http->createTransaction('58速运（启派）监管账户向取款账户转款3060元', '3060', '17101623163100000278', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171204160431992102820', '17101623163100000288');
         print_r($res);
         $this->assertNotNull($res);
     }
