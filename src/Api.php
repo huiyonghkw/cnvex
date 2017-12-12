@@ -523,7 +523,7 @@ class Api extends Http
      * @param  [type] $goodsDetail      
      * @return [type]                   
      */
-    public function posQrCodeOrderSync($transNo, $posMerchantNo, $posClientNo, $posBatchNo, $posTransactionNo,  $tradeName, $seller, $buyer, $notifyUrl, $bankName, $bankCardNo, $bankCardType, $bankAccountType = 'PRIVATE', $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $payerAccount = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = '', $posTradeNo = '', $posOutOrderNo = '')
+    public function posQrCodeOrderSync($transNo, $amount, $posMerchantNo, $posClientNo, $posBatchNo, $posTransactionNo,  $tradeName, $seller, $buyer, $notifyUrl, $bankName, $bankCardNo, $bankCardType, $bankAccountType = 'PRIVATE', $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $payerAccount = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = '', $posTradeNo = '', $posOutOrderNo = '')
     {
         return $this->post([
             'service'    => 'posOrderSynchronize',
@@ -545,7 +545,7 @@ class Api extends Http
             'bankCardNo'  => $bankCardNo,
             'bankCardType'  => $bankCardType,
             'bankAccountType'  => $clearingType,
-            'amount'  => $clearingType,
+            'amount'  => $amount,
             'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
             'tradeMemo'  => $remark,
             'merchOrderNo'   => $transNo,
