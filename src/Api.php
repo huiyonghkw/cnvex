@@ -497,33 +497,33 @@ class Api extends Http
 
 
     /**
-     * 
+     *
      * http://bxapi.cnvex.cn/apiService/intoServiceDetailInfo.html?serviceNo=offlineOrderSynchronize_1.0&schemeName=%E9%80%9A%E7%94%A8%E6%9C%8D%E5%8A%A1&schemeId=1#
-     * @param  [type] $transNo          
-     * @param  [type] $posMerchantNo    
-     * @param  [type] $posClientNo      
-     * @param  [type] $posBatchNo       
-     * @param  [type] $posTransactionNo 
-     * @param  [type] $tradeName        
-     * @param  [type] $seller           
-     * @param  [type] $buyer            
-     * @param  [type] $notifyUrl        
-     * @param  [type] $bankName         
-     * @param  [type] $bankCardNo       
-     * @param  [type] $bankCardType     
+     * @param  [type] $transNo
+     * @param  [type] $posMerchantNo
+     * @param  [type] $posClientNo
+     * @param  [type] $posBatchNo
+     * @param  [type] $posTransactionNo
+     * @param  [type] $tradeName
+     * @param  [type] $seller
+     * @param  [type] $buyer
+     * @param  [type] $notifyUrl
+     * @param  [type] $bankName
+     * @param  [type] $bankCardNo
+     * @param  [type] $bankCardType
      * @param  string $bankAccountType  PUBLIC：对公， PRIVATE：对私
-     * @param  string $clearingType     
-     * @param  string $tradeTime        
-     * @param  string $payer            
-     * @param  string $payerAccount     
-     * @param  string $sellerAccount    
-     * @param  string $buyerAccount     
-     * @param  string $remark           
-     * @param  string $body             
-     * @param  [type] $goodsDetail      
-     * @return [type]                   
+     * @param  string $clearingType
+     * @param  string $tradeTime
+     * @param  string $payer
+     * @param  string $payerAccount
+     * @param  string $sellerAccount
+     * @param  string $buyerAccount
+     * @param  string $remark
+     * @param  string $body
+     * @param  [type] $goodsDetail
+     * @return [type]
      */
-    public function posQrCodeOrderSync($transNo, $amount, $posMerchantNo, $posClientNo, $posBatchNo, $posTransactionNo,  $tradeName, $seller, $buyer, $notifyUrl, $bankName, $bankCardNo, $bankCardType, $bankAccountType = 'PRIVATE', $clearingType = 'AUTO', $tradeTime = '', $payer = '' , $payerAccount = '' , $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = '', $posTradeNo = '', $posOutOrderNo = '')
+    public function posQrCodeOrderSync($transNo, $amount, $posMerchantNo, $posClientNo, $posBatchNo, $posTransactionNo, $tradeName, $seller, $buyer, $notifyUrl, $bankName, $bankCardNo, $bankCardType, $bankAccountType = 'PRIVATE', $clearingType = 'AUTO', $tradeTime = '', $payer = '', $payerAccount = '', $sellerAccount = '', $buyerAccount = '', $remark = '', $body = '', $goodsDetail = '', $posTradeNo = '', $posOutOrderNo = '')
     {
         return $this->post([
             'service'    => 'posOrderSynchronize',
@@ -553,6 +553,36 @@ class Api extends Http
             'tradeProfitInfoList' => $body,
             'notifyUrl'  => $notifyUrl,
             'tradeProfitType'  => $clearingType,
+        ]);
+    }
+
+    /**
+    * 提现跳转
+    * http://bxapi.cnvex.cn/apiService/intoServiceDetailInfo.html?serviceNo=commonAuditRegister_1.0&schemeName=%E9%80%9A%E7%94%A8%E6%9C%8D%E5%8A%A1&schemeId=1#
+    * @param  string $operatorId      代扣绑卡ID
+    * @param  string $internalUid 企账通用户ID
+    * @param  string $transNo     交易号
+    * @param  int $amount          金额
+    * @param  string $notifyUrl   通知URL
+    * @param  string $accountNo   账户
+    * @param  string $tradeTime   交易时间
+    * @param  string $tradeMemo   备注
+    * @return void
+    */
+    public function withdrawRedirect($operatorId, $internalUid, $transNo, $amount, $notifyUrl, $accountNo = null, $tradeTime = null, $tradeMemo = null)
+    {
+        return $this->getReturnUrl([
+            'service'    => 'withdrawRedirect',
+            'operatorId'     => $operatorId,
+            'userId'     => $internalUid,
+            'accountNo'  => $accountNo,
+            'amount'     => $amount,
+            'tradeTime'  => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
+            'tradeMemo'  => $tradeMemo,
+            'merchOrderNo'   => $transNo,
+            'userIp'     => get_client_ip(),
+            'returnUrl' => $returnUrl,
+            'notifyUrl'  => $notifyUrl,
         ]);
     }
 }

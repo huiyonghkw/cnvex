@@ -18,14 +18,14 @@ class HttpTest extends TestCase
                     'md5' => [
                         'driver' => 'md5',
                         'options' => [
-                            'signKey' => '20ad542cba99a9330dce0429dbeec55ec'
+                            'signKey' => 'ac59f0714d937822d990d880a6754fc7'
                         ]
                     ]
                 ],
                 'cnvex' => [
                     'protocol' => 'HTTP_FORM_JSON',
                     'signType' => 'MD5',
-                    'partnerId' => 'c17100913073600200074',
+                    'partnerId' => '17083115321700300060',
                     'version' => '1.0',
                     'apiHost' => 'http://open.cnvex.cn/gateway.html',
                     'debug' => true,
@@ -52,7 +52,7 @@ class HttpTest extends TestCase
     public function testQueryUser()
     {
         $this->getDefaults();
-        $res = $this->http->queryUser('17101623163100000011', '');
+        $res = $this->http->queryUser('17121317100200200161', '');
         print_r($res);
         $this->assertObjectHasAttribute('userId', $res);
     }
@@ -60,7 +60,8 @@ class HttpTest extends TestCase
     public function testQueryUserBalance()
     {
         $this->getDefaults();
-        $res = $this->http->queryUserBalance('17092720111513000002');
+        $res = $this->http->queryUserBalance('17121317100200200161');
+        print_r($res);
         $this->assertObjectHasAttribute('userId', $res);
     }
 
@@ -155,7 +156,7 @@ class HttpTest extends TestCase
     public function testTransfer()
     {
         $this->getDefaults();
-        $res = $this->http->transfer('17262020171204160431992102820', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '3060', '17101623163100000288');
+        $res = $this->http->transfer('17262020171204160431992102821', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '0.02', '17112411171300200058');
         print_r($res);
         $this->assertNotNull($res);
     }
@@ -163,7 +164,7 @@ class HttpTest extends TestCase
     public function testCreateTransaction()
     {
         $this->getDefaults();
-        $res = $this->http->createTransaction('58速运（启派）监管账户向取款账户转款3060元', '3060', '17101623163100000278', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171204160431992102820', '17101623163100000288');
+        $res = $this->http->createTransaction('杜中海企账通账户向重庆宜配科技有限公司企账通账户转0.02', '0.02', '17101623164200000001', 'http://open.dev.weipeiapp.com/api/cnvex/notify', '17262020171204160431992102821', '17112411171300200058');
         print_r($res);
         $this->assertNotNull($res);
     }
