@@ -18,14 +18,14 @@ class HttpTest extends TestCase
                     'md5' => [
                         'driver' => 'md5',
                         'options' => [
-                            'signKey' => 'ac59f0714d937822d990d880a6754fc7'
+                            'signKey' => 'ac59f0714d937822d990d880a6754fc7c'
                         ]
                     ]
                 ],
                 'cnvex' => [
                     'protocol' => 'HTTP_FORM_JSON',
                     'signType' => 'MD5',
-                    'partnerId' => '17083115321700300060',
+                    'partnerId' => '17083115321700300060c',
                     'version' => '1.0',
                     'apiHost' => 'http://open.cnvex.cn/gateway.html',
                     'debug' => true,
@@ -52,7 +52,7 @@ class HttpTest extends TestCase
     public function testQueryUser()
     {
         $this->getDefaults();
-        $res = $this->http->queryUser('17121317100200200161', '');
+        $res = $this->http->queryUser('17121415551700300189', '');
         print_r($res);
         $this->assertObjectHasAttribute('userId', $res);
     }

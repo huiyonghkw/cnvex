@@ -569,7 +569,7 @@ class Api extends Http
     * @param  string $tradeMemo   备注
     * @return void
     */
-    public function withdrawRedirect($operatorId, $internalUid, $transNo, $amount, $notifyUrl, $accountNo = null, $tradeTime = null, $tradeMemo = null)
+    public function withdrawRedirect($operatorId, $internalUid, $transNo, $amount, $notifyUrl, $returnUrl = null,  $accountNo = null, $tradeTime = null, $tradeMemo = null)
     {
         return $this->getReturnUrl([
             'service'    => 'withdrawRedirect',
