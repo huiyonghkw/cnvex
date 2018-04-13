@@ -210,6 +210,7 @@ class Api extends Http
         ]);
     }
 
+
     /**
      * 查询转账交易记录
      * @param  string  $seller 卖家企账通用户ID
@@ -224,9 +225,14 @@ class Api extends Http
     CLOSE:交易关闭
      * @param  integer $page  当前页
      * @param  integer $limit 页面个数
-     * @return array
+     * @param  integer $page 起始页
+     * @param  integer $limit 页面大小，默认 20
+     * @param  string  $startTime 开始日期
+     * @param  string  $endTime   结束日期
+     * @param  string  $tradeType 交易类型
+     * @return object
      */
-    public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20)
+    public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20, $startTime = null, $endTime = null, $tradeType = '')
     {
         return $this->post([
             'service'      => 'tradeQueryPage',
@@ -235,6 +241,9 @@ class Api extends Http
             'tradeStatus'  => $status,
             'start'        => $page,
             'limit'        => $limit,
+            'startTime'    => $startTime,
+            'endTime'      => $endTime,
+            'tradeType'    => $tradeType,
         ]);
     }
 
@@ -254,13 +263,20 @@ class Api extends Http
 
     /**
      * 查询多笔充值或者提现
-     * @param string $internalUid 企账通用户ID
+    * @param string $internalUid 企账通用户ID
      * @param  integer $page  当前页
      * @param  integer $limit 页面个数
      * @param string $status INIT:初始状态;PROCESSING:处理中;SUCCESS:交易成功;FAIL:交易失败
-     * @return array
+     * @param  integer $page  当前页
+     * @param  integer $limit 页面个数
+     * @param  integer $page 起始页
+     * @param  integer $limit 页面大小，默认 20
+     * @param  string  $startTime 开始日期
+     * @param  string  $endTime   结束日期
+     * @param  string  $tradeType 交易类型
+     * @return object
      */
-    public function queryRechargesAndwithdrawals($internalUid, $page = 1, $status = 'SUCCESS', $limit = 20)
+    public function queryRechargesAndwithdrawals($internalUid, $page = 1, $status = 'SUCCESS', $limit = 20, $startTime = null, $endTime = null, $tradeType = '')
     {
         return $this->post([
             'service'    => 'fundQueryPage',
@@ -268,6 +284,9 @@ class Api extends Http
             'fundStatus' => $status,
             'start'      => $page,
             'limit'      => $limit,
+            'tradeType'  => $tradeType,
+            'startTime'  => $startTime,
+            'endTime'    => $endTime,
         ]);
     }
 
