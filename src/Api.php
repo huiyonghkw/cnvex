@@ -183,6 +183,30 @@ class Api extends Http
     }
 
     /**
+     * 支付宝扫码支付
+     * @param  float $amount       支付金额
+     * @param  string $notify      通知回调地址
+     * @param  string $transNo     商户交易单号
+     * @param  string $subject     交易订单标题
+     * @param  string $internalUid 企账通用户ID
+     * @param  string $payerAccountNo 企账通用户账户
+     * @return object
+     */
+    public function payAlipayQrCode($amount, $notify, $transNo, $subject, $internalUid = '', $payerAccountNo = '')
+    {
+        return $this->post([
+            'service'      => 'aliPay',
+            'payerUserId'  => $internalUid,
+            'payerAccountNo'  => $payerAccountNo,
+            'productInfo'  => $subject,
+            'amount'       => $amount,
+            'merchOrderNo' => $transNo,
+            'userIp'       => get_client_ip(),
+            'notifyUrl'    => $notify,
+        ]);
+    }
+
+    /**
      * 微信APP原生支付
      * @param  float $amount       支付金额
      * @param  string $notify      通知回调地址
