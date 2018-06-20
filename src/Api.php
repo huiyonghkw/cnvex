@@ -628,4 +628,23 @@ class Api extends Http
             'notifyUrl'  => $notifyUrl,
         ]);
     }
+
+    /**
+     * Register redirect url
+     * @param  [type] $outUserId [description]
+     * @param  string $type      [description]
+     * @param  [type] $notifyUrl [description]
+     * @param  [type] $returnUrl [description]
+     * @return [type]            [description]
+     */
+    public function getRegisterRedirectUrl($outUserId, $type = 'PERSON', $notifyUrl, $returnUrl)
+    {
+        return $this->getReturnUrl([
+            'service'    => 'memberRegisterRedirect',
+            'outUserId'     => $outUserId,
+            'userType'  => $type,
+            'returnUrl' => $returnUrl,
+            'notifyUrl'  => $notifyUrl,
+        ]);
+    }
 }
