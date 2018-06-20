@@ -176,4 +176,12 @@ class HttpTest extends TestCase
         print_r($res);
         $this->assertNotNull($res);
     }
+
+    public function testGetRegisterRedirectUrl()
+    {
+        $this->getDefaults();
+        $res = $this->http->getWalletRedirectUrl('17090516275900200008', 'BUSINESS');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
 }
