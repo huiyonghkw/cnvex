@@ -647,4 +647,31 @@ class Api extends Http
             'notifyUrl'  => $notifyUrl,
         ]);
     }
+
+    /**
+     * 跳转收银台支付
+     * @param  [type] $internalUid    [description]
+     * @param  [type] $transNo        [description]
+     * @param  [type] $amount         [description]
+     * @param  [type] $notifyUrl      [description]
+     * @param  [type] $returnUrl      [description]
+     * @param  string $tradeType      BALANCE_PAY(余额支付，pc和h5支持),NET_DEPOSIT_PAY(网银支付，pc支持),OFFLINE_PAY_PAY(线下支付，pc支持),WECHAT_PUBLIC_PAY(微信公众号支付，h5支持),WECHAT_SCAN_CODE_PAY(微信扫描支付，pc支持),ALI_SCAN_CODE_PAY(支付宝扫描支付，pc支持) 不传值表示支持所有支付方式
+     * @param  [type] $payerAccountNo [description]
+     * @param  [type] $operatorId     [description]
+     * @return [type]                 [description]
+     */
+    public function getTradeRedirectPayUrl($internalUid, $transNo, $amount, $notifyUrl, $returnUrl, $tradeType = 'BALANCE_PAY', $payerAccountNo = null)
+    {
+        return $this->getReturnUrl([
+            'service'           => 'tradeRedirectPay',
+            'merchOrderNo'      => $transNo,
+            'payerUserId'       => $internalUid,
+            'payerAccountNo'    => $payerAccountNo,
+            'tradeTypes'        => $tradeType,
+            'amount'            => $amount,
+            'operatorId'        => $internalUid,
+            'returnUrl'         => $returnUrl,
+            'notifyUrl'         => $notifyUrl,
+        ]);
+    }
 }

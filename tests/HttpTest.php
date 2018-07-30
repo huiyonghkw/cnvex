@@ -18,14 +18,14 @@ class HttpTest extends TestCase
                     'md5' => [
                         'driver' => 'md5',
                         'options' => [
-                            'signKey' => 'ac59f0714d937822d990d880a6754fc7c'
+                            'signKey' => '20ad542cba99a9330dce0429dbeec55ec'
                         ]
                     ]
                 ],
                 'cnvex' => [
                     'protocol' => 'HTTP_FORM_JSON',
                     'signType' => 'MD5',
-                    'partnerId' => '17083115321700300060c',
+                    'partnerId' => '17100913073600200074c',
                     'version' => '1.0',
                     'apiHost' => 'http://open.cnvex.cn/gateway.html',
                     'debug' => true,
@@ -181,6 +181,14 @@ class HttpTest extends TestCase
     {
         $this->getDefaults();
         $res = $this->http->getWalletRedirectUrl('17090516275900200008', 'BUSINESS');
+        print_r($res);
+        $this->assertNotNull($res);
+    }
+
+    public function testGetTradeRedirectPayUrl()
+    {
+        $this->getDefaults();
+        $res = $this->http->getTradeRedirectPayUrl('17122514514900200152', '17262020171204160431992102821',  '0.01', 'http://open.dev.weipeiapp.com/api/cnvex/notify', 'http://open.dev.weipeiapp.com/api/cnvex/notify');
         print_r($res);
         $this->assertNotNull($res);
     }
