@@ -29,7 +29,7 @@ class HttpTest extends TestCase
                     'signType' => 'MD5',
                     'partnerId' => $contexts['partner_id'],
                     'version' => '1.0',
-                    'apiHost' => 'http://open.cnvex.cn/gateway.html',
+                    'apiHost' => $contexts['api_host'],
                     'debug' => true,
                     'notify' => [
                         'blance_pay' => 'http://api.weipeiapp.com.dev/qzt/blance_pay/notify'
@@ -182,7 +182,7 @@ class HttpTest extends TestCase
     public function testGetRegisterRedirectUrl()
     {
         $this->getDefaults();
-        $res = $this->http->getWalletRedirectUrl('17090516275900200008', 'BUSINESS');
+        $res = $this->http->getRegisterRedirectUrl('7F1EEBC2-7D8A-4072-95AB-EFA61E80EE3C');
         print_r($res);
         $this->assertNotNull($res);
     }
