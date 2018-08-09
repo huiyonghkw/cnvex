@@ -674,4 +674,23 @@ class Api extends Http
             'notifyUrl'         => $notifyUrl,
         ]);
     }
+
+    /**
+     * 交易退款
+     * @param  [type] $orignalNo [description]
+     * @param  [type] $amount    [description]
+     * @param  [type] $reason    [description]
+     * @param  [type] $notifyUrl [description]
+     * @return [type]            [description]
+     */
+    public function refund($orignalNo, $amount, $reason, $notifyUrl = '') 
+    {
+        return $this->post([
+            'service'           => 'tradeRefund',
+            'origMerchOrdeNo'   => $orignalNo,
+            'refundAmount'      => $amount,
+            'refundReason'      => $reason,
+            'notifyUrl'         => $notifyUrl,
+        ]);
+    }
 }
