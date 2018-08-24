@@ -693,4 +693,16 @@ class Api extends Http
             'notifyUrl'         => $notifyUrl,
         ]);
     }
+
+    /**
+     * 交易订单清分服务
+     * @param  [type] $orignalNo [description]
+     */
+    public function tradeProfit($orignalNo)
+    {
+        return $this->post([
+            'service'           => 'tradeProfit',
+            'origMerchOrdeNo'   => $orignalNo
+        ]);
+    }
 }
