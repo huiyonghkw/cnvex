@@ -129,32 +129,34 @@ class Api extends Http
 
     /**
      * 统一收单交易创建接口
-     * @param  string $subject     订单标题
-     * @param  float $amount       订单总金额，单位为元，精确到小数点后两位
-     * @param  integer $seller     卖家企账通用户ID
-     * @param  string $notify      异步回调通知地址
-     * @param  string $transNo     商户交易单号
-     * @param  integer $buyer      买家企账通用户ID
-     * @param  string $clearType   清分类型: MANUAL 手动 AUTO 自动
-     * @param  string $body        对交易或商品的描述
-     * @param  String $goodsDetail 订单包含的商品列表信息.Json格式
+     * @param  string $subject           订单标题
+     * @param  float $amount             订单总金额，单位为元，精确到小数点后两位
+     * @param  integer $seller           卖家企账通用户ID
+     * @param  string $notify            异步回调通知地址
+     * @param  string $transNo           商户交易单号
+     * @param  integer $buyer            买家企账通用户ID
+     * @param  string $clearType         清分类型: MANUAL 手动 AUTO 自动
+     * @param  string $body              对交易或商品的描述
+     * @param  String $goodsDetail       订单包含的商品列表信息.Json格式
+     * @param  String $tradeProfitDetail 订单交易分润列表信息，Json格式
      * @return Object
      */
-    public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null, $tradeTime = null)
+    public function createTransaction($subject, $amount, $seller, $notify, $transNo, $buyer = null, $clearType = 'AUTO', $body = '', $goodsDetail = null, $tradeProfitDetail = null, $tradeTime = null)
     {
         return $this->post([
-            'service'         => 'tradeCreate',
-            'merchOrderNo'    => $transNo,
-            'tradeName'       => $subject,
-            'sellerUserId'    => $seller,
-            'buyerUserId'     => $buyer,
-            'tradeProfitType' => $clearType,
-            'amount'          => floatval($amount),
-            'tradeTime'       => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
-            'tradeMemo'       => $body,
-            'notifyUrl'       => $notify,
-            'userIp'          => get_client_ip(),
-            'goodsInfoList'   => $goodsDetail,
+            'service'               => 'tradeCreate',
+            'merchOrderNo'          => $transNo,
+            'tradeName'             => $subject,
+            'sellerUserId'          => $seller,
+            'buyerUserId'           => $buyer,
+            'tradeProfitType'       => $clearType,
+            'amount'                => floatval($amount),
+            'tradeTime'             => $tradeTime ? $tradeTime : Carbon::now()->toDateTimeString(),
+            'tradeMemo'             => $body,
+            'notifyUrl'             => $notify,
+            'userIp'                => get_client_ip(),
+            'goodsInfoList'         => $goodsDetail,
+            'tradeProfitInfoList'   => $tradeProfitDetail,
         ]);
     }
 
