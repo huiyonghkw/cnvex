@@ -256,9 +256,11 @@ class Api extends Http
      * @param  string  $startTime 开始日期
      * @param  string  $endTime   结束日期
      * @param  string  $tradeType 交易类型
+     * @param  string  $startProfitTime 清分开始时间
+     * @param  string  $endProfitTime   清分结束时间
      * @return object
      */
-    public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20, $startTime = null, $endTime = null, $tradeType = '')
+    public function queryTransfers($seller = '', $buyer = '', $status = 'SUCCESS', $page = 1, $limit = 20, $startTime = null, $endTime = null, $tradeType = '', $startProfitTime = null, $endProfitTime = null)
     {
         return $this->post([
             'service'      => 'tradeQueryPage',
@@ -270,6 +272,8 @@ class Api extends Http
             'startTime'    => $startTime,
             'endTime'      => $endTime,
             'tradeType'    => $tradeType,
+            'startProfitTime' => $startProfitTime,
+            'endProfitTime'   => $endProfitTime,
         ]);
     }
 
