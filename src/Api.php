@@ -45,6 +45,27 @@ class Api extends Http
     }
 
     /**
+     * 查询企账通2.0账户信息，返回全部信息
+     * @param  string $internalUid 企账通用户ID
+     * @param  string $externalUid 企账通外部用户ID
+     * @return object
+     */
+    public function queryUserReturnAll($internalUid = '', $externalUid = '')
+    {
+        $response = $this->post([
+            'service'   => 'queryUser',
+            'userId'    => $internalUid,
+            'outUserId' => $externalUid,
+        ]);
+        if (!isset($response->userInfo[0])) {
+            throw new \RuntimeException('未找到企账通用户');
+        }
+        $account = $response->userInfo;
+
+        return $account;
+    }
+
+    /**
      * 查询企账通账户余额信息
      * @param string $internalUid 企账通用户ID
      * @return object
