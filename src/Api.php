@@ -134,6 +134,39 @@ class Api extends Http
     }
 
     /**
+     * 企账通不同类型会员注册
+     *
+     * @param  string $externalUid 企账通外部用户ID
+     * @param  integer $captcha 短信验证码
+     * @param  integer $mobile 手机号码
+     * @param  string $from 注册渠道 MOBILE/PC
+     * @param  string $email 邮箱
+     * @param  string $type 注册会员类型
+     * @param  string $grade 实名审核申请等级
+     * @param  object $personRegisterDto 个人用户注册信息
+     * @param  object $individualRegisterDto 个体户注册信息
+     * @param  object $businessRegisterDto 企业用户注册信息
+     * @return string
+     */
+    public function commonAuditRegister($externalUid, $captcha, $mobile, $type, $grade,
+                                        $personRegisterDto = '', $individualRegisterDto = '', $businessRegisterDto = '', $from = 'MOBILE', $email = ''){
+        $response = $this->post([
+            'service'               => 'commonAuditRegister',
+            'outUserId'             => $externalUid,
+            'type'                  => $type,
+            'grade'                 => $grade,
+            'captcha'               => $captcha,
+            'email'                 => $email,
+            'mobileNo'              => $mobile,
+            'registerClient'        => $from,
+            'personRegisterDto'     => $personRegisterDto,
+            'individualRegisterDto' => $individualRegisterDto,
+            'businessRegisterDto'   => $businessRegisterDto
+        ]);
+        return $response->userId;
+    }
+
+    /**
      * 查询单个转账交易单
      * @param  string $orignalNo 商户订单号
      * @return object
