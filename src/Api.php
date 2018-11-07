@@ -134,7 +134,7 @@ class Api extends Http
     }
 
     /**
-     * 企账通会员注册
+     * 企账通不同类型会员注册
      *
      * @param  string $externalUid 企账通外部用户ID
      * @param  integer $captcha 短信验证码
@@ -165,7 +165,7 @@ class Api extends Http
         ]);
         return $response->userId;
     }
-    
+
     /**
      * 查询单个转账交易单
      * @param  string $orignalNo 商户订单号
