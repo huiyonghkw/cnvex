@@ -167,6 +167,78 @@ class Api extends Http
     }
 
     /**
+     * 开通二维码收款服务
+     *
+     * @param  string $userId 用户ID
+     * @param  string $shopName 店铺名称
+     * @param  string $doorheadPhotoPath 门头照地址
+     * @param  integer $captcha 短信验证码
+     * @param  integer $mobileNo 手机号码
+     * @param  string $address 地址
+     * @param  string $province 省份
+     * @param  string $city 城市
+     * @param  string $district 区/县
+     * @return string
+     */
+    public function qrcodeApply($userId, $shopName, $doorheadPhotoPath, $captcha, $mobileNo, $province, $city, $district, $address)
+    {
+        $response = $this->post([
+            'service'           => 'qrcodeApply',
+            'userId'              => $userId,
+            'shopName'            => $shopName,
+            'doorheadPhotoPath'   => $doorheadPhotoPath,
+            'captcha'             => $captcha,
+            'mobileNo'            => $mobileNo,
+            'province'            => $province,
+            'city'                => $city,
+            'district'            => $district,
+            'address'             => $address
+        ]);
+        return $response;
+    }
+
+    /**
+     * 发送验证码
+     * @param integer $mobile 手机号码
+     * @param integer $type 短信类型
+     *      BIND_BANK_CARD:绑定银行卡
+     *      REGISTER:注册用户
+     *      LOGIN:登录
+     *      FORGET_LOGIN_PASSWORD:找回登录密码
+     *      FORGET_PAY_PASSWORD:找回支付密码
+     *      COMMON_CAPTCHA:通用验证码
+     * @param string $internalUid 企账通用户ID(当为绑卡短信时，必填)
+     * @return boolean
+     */
+    public function smsCapthaSend($mobile, $type = 'REGISTER', $internalUid = '')
+    {
+        $response = $this->post([
+            'service'        => 'smsCapthaSend',
+            'userId'         => $internalUid,
+            'mobile'         => $mobile,
+            'smsCaptchaType' => $type,
+        ]);
+        return (boolean) $response->success;
+    }
+
+    /**
+     * 店铺资料查询服务
+     *
+     * @param $shopId
+     * @return string
+     * @throws \Exception
+     */
+    public function queryShopInfo($shopId)
+    {
+        $response = $this->post([
+            'service'           => 'queryShopInfo',
+            'shopId'              => $shopId
+        ]);
+        return $response;
+    }
+    
+
+    /**
      * 查询单个转账交易单
      * @param  string $orignalNo 商户订单号
      * @return object
